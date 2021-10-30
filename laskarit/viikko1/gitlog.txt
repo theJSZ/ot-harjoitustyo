@@ -1,0 +1,113 @@
+commit bab187e8fb599294290c72bd9e048485c6ee9067
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:27:02 2021 +0300
+
+    file1 poistettu, file 2 nimetty -> file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 47e0598d78122b03c8c74be389312c2a1d7a74ff
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:24:19 2021 +0300
+
+    lisätty tiedostoja/
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit a945144d1034c46f4d4b38e930dcebcbdb3161ef
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:18:42 2021 +0300
+
+    muokattu eka.txt ja kolmas.txt
+
+ eka.txt    | 8 +++++---
+ kolmas.txt | 4 +++-
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+commit 5f32ec49e5e683152be53c2eec780db42edf88cc
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:16:41 2021 +0300
+
+    uudelleennimetty tiedosto.txt -> eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit e0865f1611e93e90aeb7a964fe65523a688d9370
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:15:31 2021 +0300
+
+    poistettu toinen.txt
+
+ toinen.txt | 3 ---
+ 1 file changed, 3 deletions(-)
+
+commit 23f871264329663cb30df16cc920928d7f6d70f1
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:13:19 2021 +0300
+
+    lisätty ja poistettu tekstiä
+
+ tiedosto.txt | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+commit 68828cd1b1a1ed3a1bb3c64189f177b624153b38
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:11:59 2021 +0300
+
+    tiedosto.txt lisätty paljon tekstiä
+
+ tiedosto.txt | 48 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
+
+commit 29bc9525ca2caf3a188a230d116e204ebe516f6e
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:06:50 2021 +0300
+
+    lisätty stuff
+
+ stuff/stuff.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit d83a312b5ea18796d8c07bf09dceed266a8053e7
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:04:16 2021 +0300
+
+    muutettu toista ja kolmatta
+
+ kolmas.txt | 1 +
+ toinen.txt | 3 +++
+ 2 files changed, 4 insertions(+)
+
+commit 822b501d4630231c5d9d08d26b41f0022336cf4c
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:02:56 2021 +0300
+
+    lisätty kolmas
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 30172a6296b12d881ada78c235858f3acd67a600
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 01:00:39 2021 +0300
+
+    muutos ja lisäys
+
+ tiedosto.txt | 2 ++
+ toinen.txt   | 0
+ 2 files changed, 2 insertions(+)
+
+commit 2a9a377f991efba7edb0c618a6e3032739512f72
+Author: Jussi Rantala <jussi.v.rantala@helsinki.fi>
+Date:   Sun Oct 31 00:58:41 2021 +0300
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
