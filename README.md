@@ -3,6 +3,7 @@
 Tämä on leipätekstiä.
 Tämä sana on *kursivoitu*.
 Tämä sana on **lihavoitu**.
+Tämä muutos on epäsykronissa.
 
 Tässä on koodia:
 ```python
