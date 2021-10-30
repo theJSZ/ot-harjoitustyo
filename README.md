@@ -10,4 +10,5 @@ def print10(x: int):
         print(x)
 ```
 [komentorivi.txt](https://github.com/theJSZ/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+
 [gitlog.txt](https://github.com/theJSZ/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
