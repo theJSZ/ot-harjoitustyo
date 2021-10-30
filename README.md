@@ -1,6 +1,6 @@
 <h1>Otsikko</h1>
 Tämä on leipätekstiä.
-Tämä sana on *kursivoitu*.
+Tämä sana on _kursivoitu_.
 Tämä sana on **lihavoitu**.
 Tässä on koodia:
 ```python
