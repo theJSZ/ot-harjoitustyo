@@ -3,6 +3,7 @@
 Tämä on leipätekstiä.
 Tämä sana on *kursivoitu*.
 Tämä sana on **lihavoitu**.
+
 Tässä on koodia:
 ```python
 def print10(x: int):
