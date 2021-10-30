@@ -8,3 +8,4 @@ def print10(x: int):
     for _ in range(10):
         print(x)
 ```
+[Tässä linkki tiedostoon komentorivi.txt](https://github.com/theJSZ/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
