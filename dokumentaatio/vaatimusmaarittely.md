@@ -19,7 +19,6 @@ Tuloksen sijoittaminen pistetaulukkoon antaa oikeita tuloksia.
 ## Jatkokehitysideoita
 
 - Pelin dataa säilytetään tietokannassa 
-- 
 - High score-lista 
 - Mahdollisuus nähdä menneiden pelien pistetaulukoita 
 - Tekoäly? 
