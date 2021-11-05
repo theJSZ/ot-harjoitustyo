@@ -18,7 +18,8 @@ Tuloksen sijoittaminen pistetaulukkoon antaa oikeita tuloksia.
 
 ## Jatkokehitysideoita
 
-- Pelin dataa säilytetään tietokannassa - High score-lista - 
-Mahdollisuus nähdä menneiden pelien pistetaulukoita - Tekoäly? - Hiiren 
-osoittimen vieminen pistetaulukon ruudun kohdalle voisi näyttää 
-harmaalla pistemäärän jonka valinta tuottaisi
+- Pelin dataa säilytetään tietokannassa 
+- High score-lista 
+- Mahdollisuus nähdä menneiden pelien pistetaulukoita 
+- Tekoäly? 
+- Hiiren osoittimen vieminen pistetaulukon ruudun kohdalle voisi näyttää harmaalla pistemäärän jonka valinta tuottaisi
