@@ -9,6 +9,8 @@ Sovellus on tietokoneveriso Yatzy-pelistä.
 Aluksi käyttäjältä kysytään kuinka monta pelaajaa otetaan mukaan peliin.
 Käyttäjä nimeää jokaisen pelaajan.
 Sovelluksen päänäkymä esittää viittä noppaa ja pistetaulukkoa.
+<img src="https://github.com/theJSZ/ot-harjoitustyo/blob/master/dokumentaatio/images/yatzy_gui_draft.jpg" width="750">
+
 
 ## Perusversion toiminnallisuus
 
