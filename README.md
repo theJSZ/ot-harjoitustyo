@@ -1,13 +1,12 @@
 # Yatzy
 
-This app will run a game of [Yatzy](https://en.wikipedia.org/wiki/Yatzy) for 1 to 4 players.
+Sovellus on Yatzy-pei yhdestä neljään pelaajalle.
 
-## Usage
+## Dokumentaatio
+[Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
+[Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
+[Käyttöohje](./dokumentaatio/kayttoohje.md)
 
-To run the app, type 'poetry run invoke start' in the app root folder.
-You will be prompted to enter the number of players and a name for each.
-The game window will open, showing 5 dice and a scorecard.
-For now, there is nothing else to do than to roll the dice by clicking
-in the black space between the scorecard and the dice.
+## Käynnistys
 
-
+Komento 'poetry run invoke start' käynnistää pelin.
