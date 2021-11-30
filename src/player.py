@@ -3,7 +3,7 @@ class Player:
         self._name = name
         self._turn = None
         self._text = None  # rendered representation of name
-        self._textPos = None
+        self._text_pos = None
         self._results = {"Ykköset":     0,
                          "Kakkoset":    0,
                          "Kolmoset":    0,
@@ -25,74 +25,74 @@ class Player:
     def __str__(self):
         return self._name
 
-    def setTurn(self, turn):
+    def set_turn(self, turn):
         self._turn = turn
 
-    def getTurn(self):
+    def get_turn(self):
         return self._turn
 
-    def getResults(self):
+    def get_results(self):
         return self._results
 
-    def getName(self):
+    def get_name(self):
         return self._name
 
-    def setText(self, img):
+    def set_text(self, img):
         self._text = img
 
-    def getText(self):
+    def get_text(self):
         return self._text
 
-    def setTextPos(self, pos):
-        self._textPos = (pos)
+    def set_text_pos(self, pos):
+        self._text_pos = (pos)
 
-    def getTextPos(self):
-        return self._textPos
+    def get_text_pos(self):
+        return self._text_pos
 
-    def markUpstairs(self, target: int, dice: list):
+    def mark_upstairs(self, target: int, dice: list):
         target_strings = ["", "Ykköset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset"]
-        for Die in dice:
-            if Die.getFace() == target:
+        for die in dice:
+            if die.get_face() == target:
                 self._results[target_strings[target]] += target
 
-    def markTwos(self, dice: list):
+    def mark_twos(self, dice: list):
         pass
 
-    def markThrees(self, dice: list):
+    def mark_threes(self, dice: list):
         pass
 
-    def markFours(self, dice: list):
+    def mark_fours(self, dice: list):
         pass
 
-    def markFives(self, dice: list):
+    def mark_fives(self, dice: list):
         pass
 
-    def markSixes(self, dice: list):
+    def mark_sixes(self, dice: list):
         pass
 
-    def markPair(self, dice: list):
+    def mark_pair(self, dice: list):
         pass
 
-    def markTwoPair(self, dice: list):
+    def mark_two_pair(self, dice: list):
         pass
 
-    def markThreeKind(self, dice: list):
+    def mark_three_kind(self, dice: list):
         pass
 
-    def markFourKind(self, dice: list):
+    def mark_four_kind(self, dice: list):
         pass
 
-    def markSmallStraight(self, dice: list):
+    def mark_small_straight(self, dice: list):
         pass
 
-    def markLargeStraight(self, dice: list):
+    def mark_large_straight(self, dice: list):
         pass
 
-    def markFullHouse(self, dice: list):
+    def mark_full_house(self, dice: list):
         pass
 
-    def markChance(self, dice: list):
+    def mark_chance(self, dice: list):
         pass
 
-    def markYatzy(self, dice: list):
+    def mark_yatzy(self, dice: list):
         pass

@@ -7,4 +7,4 @@ class TestPlayer(unittest.TestCase):
 
     def test_constructor(self):
         player = Player("Jussi")
-        self.assertEqual(player.getName(), "Jussi")
+        self.assertEqual(player.get_name(), "Jussi")

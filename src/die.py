@@ -8,19 +8,19 @@ class Die:
         self._y = 0
         self._x = 0
 
-    def setPosition(self, pos: tuple):
+    def set_position(self, pos: tuple):
         self._y = pos[0]
         self._x = pos[1]
 
-    def getPosition(self):
+    def get_position(self):
         return (self._y, self._x)
 
-    def getFace(self):
+    def get_face(self):
         return self._face
 
     def throw(self):
         if not self._frozen:
             self._face = randint(1,6)
 
-    def changeFreezeState(self):
+    def change_freeze_state(self):
         self._frozen = not self._frozen

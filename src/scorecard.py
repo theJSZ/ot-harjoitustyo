@@ -1,4 +1,4 @@
-a = dict()
+a = {}
 
 class Scorecard:
     def __init__(self, players: list):

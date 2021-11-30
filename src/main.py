@@ -1,9 +1,7 @@
-from time import sleep
+import pygame
 from die import Die
 from player import Player
 from scorecard import Scorecard
-import pygame
-import os
 
 DICE_Y_POS = 5
 
@@ -11,13 +9,13 @@ class Yatzy:
     def __init__(self, players):
         self._display = pygame.display.set_mode((377, 760))
         self._d_images = [None]
-        self._loadImages()
+        self._load_images()
         self._players = players
-        self._initPlayers()
+        self._init_players()
         self._dice = [Die() for _ in range(5)]
 
-        for x, die in enumerate(self._dice):
-            die.setPosition((5 + x*73, DICE_Y_POS))
+        for index, die in enumerate(self._dice):
+            die.set_position((5 + index*73, DICE_Y_POS))
         self._scorecard = Scorecard(self._players)
         self._run()
 
@@ -29,38 +27,39 @@ class Yatzy:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     if mouse_pos[1] in range(74, 124):
-                        for d in self._dice:
-                            d.throw()
+                        for die in self._dice:
+                            die.throw()
                         rounds_left -= 1
-            self._updateScreen()
+            self._update_screen()
         exit()
 
-    def _initPlayers(self):
-        for x, player in enumerate(self._players):
-            name = player.getName()
+    def _init_players(self):
+        for index, player in enumerate(self._players):
+            name = player.get_name()
             name_img = font.render(name, False, (0, 0, 0))
             name_img = pygame.transform.scale(name_img, (44, 20))
-            player.setText(name_img)
-            player.setTextPos((180 + x*47, 140))
-            player.setTurn(x)        
+            player.set_text(name_img)
+            player.set_text_pos((180 + index*47, 140))
+            player.set_turn(index)
 
-    def _updateScreen(self):
-        for d in self._dice:
-            self._display.blit(self._d_images[d.getFace()], d.getPosition())
+    def _update_screen(self):
+        for die in self._dice:
+            self._display.blit(self._d_images[die.getFace()], die.getPosition())
 
         self._display.blit(self._scorecard_img, (0, 128))
 
         for player in self._players:
             name_img = player.getText()
             name_pos = player.getTextPos()
-            self._display.blit(name_img, name_pos)  
+            self._display.blit(name_img, name_pos)
 
         pygame.display.flip()
 
-    def _loadImages(self):
+    def _load_images(self):
 
         for i in range(1, 7):
-            self._d_images.append(pygame.transform.scale(pygame.image.load(f'src/images/{i}.png'), (65, 65)))
+            self._d_images.append(
+                pygame.transform.scale(pygame.image.load(f'src/images/{i}.png'), (65, 65)))
 
         self._scorecard_img = pygame.image.load('src/images/taulukko.png')  # 377 * 610
         # Each die has 377/5 = 75.4 pixels of space
@@ -72,13 +71,10 @@ if __name__ == "__main__":
     pygame.font.init()
     font = pygame.font.SysFont('Sans Serif', 30)
 
-    players = []
+    player_list = []
     nPlayers = int(input("How many players? "))
     print("Names:")
     for i in range(nPlayers):
-        name = input(f"p{i+1}: ")
-        players.append(Player(name))
-    game = Yatzy(players)
-
-    
-
+        player_name = input(f"p{i+1}: ")
+        player_list.append(Player(player_name))
+    game = Yatzy(player_list)
