@@ -55,44 +55,95 @@ class Player:
             if die.get_face() == target:
                 self._results[target_strings[target]] += target
 
-    def mark_twos(self, dice: list):
-        pass
-
-    def mark_threes(self, dice: list):
-        pass
-
-    def mark_fours(self, dice: list):
-        pass
-
-    def mark_fives(self, dice: list):
-        pass
-
-    def mark_sixes(self, dice: list):
-        pass
-
     def mark_pair(self, dice: list):
-        pass
+        faces = [0 for _ in range(7)]
+        for die in dice:
+            faces[die.get_face()] += 1
+
+        for face in range(6, 0, -1):
+            if faces[face] >= 2:
+                self._results["1 pari"] = 2*face
+                return
+        self._results["1 pari"] = 0
 
     def mark_two_pair(self, dice: list):
-        pass
+        faces = [0 for _ in range(7)]
+        total = 0
+        for die in dice:
+            faces[die.get_face()] += 1
+
+        pairs = set()
+        for face in range(6, 0, -1):
+            if faces[face] >= 2:
+                pairs.add(face)
+        if len(pairs) < 2:
+            self._results["2 paria"] = 0
+        else:
+            total = 0
+            total += max(pairs)*2
+            pairs.remove(max(pairs))
+            total += max(pairs)*2
+            self._results["2 paria"] = total
+
 
     def mark_three_kind(self, dice: list):
-        pass
+        faces = [0 for _ in range(7)]
+        total = 0
+        for die in dice:
+            faces[die.get_face()] += 1
+            if faces[die.get_face()] == 3:
+                total = 3*die.get_face()
+        self._results["3 samaa"] = total
 
     def mark_four_kind(self, dice: list):
-        pass
+        faces = [0 for _ in range(7)]
+        total = 0
+        for die in dice:
+            faces[die.get_face()] += 1
+            if faces[die.get_face()] == 4:
+                total = 4*die.get_face()
+        self._results["4 samaa"] = total
 
     def mark_small_straight(self, dice: list):
-        pass
+        faces = []
+        for die in dice:
+            faces.append(die.get_face())
+        if sorted(faces) == [1, 2, 3, 4, 5]:
+            self._results["Pieni suora"] = 15
+        else:
+            self._results["Pieni suora"] = 0
+
 
     def mark_large_straight(self, dice: list):
-        pass
+        faces = []
+        for die in dice:
+            faces.append(die.get_face())
+        if sorted(faces) == [2, 3, 4, 5 ,6]:
+            self._results["Suuri suora"] = 20
+        else:
+            self._results["Suuri suora"] = 0
 
     def mark_full_house(self, dice: list):
-        pass
+        die_set = set()
+        total = 0
+        for die in dice:
+            die_set.add(die.get_face())
+        if len(die_set) == 2:
+            for die in dice:
+                total += die.get_face()
+        else:
+            total = 0
+        self._results["Täyskäsi"] = total
 
     def mark_chance(self, dice: list):
-        pass
+        total = 0
+        for die in dice:
+            total += die.get_face()
+        self._results["Sattuma"] = total
 
     def mark_yatzy(self, dice: list):
-        pass
+        if sorted(dice)[0] == sorted(dice)[4]:
+            total = 50
+        else:
+            total = 0
+        self._results["Yatzy"] = total

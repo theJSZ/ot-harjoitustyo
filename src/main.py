@@ -1,3 +1,4 @@
+import sys
 import pygame
 from die import Die
 from player import Player
@@ -24,6 +25,9 @@ class Yatzy:
         rounds_left = 15
         while rounds_left:
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     if mouse_pos[1] in range(74, 124):
@@ -31,7 +35,7 @@ class Yatzy:
                             die.throw()
                         rounds_left -= 1
             self._update_screen()
-        exit()
+        sys.exit()
 
     def _init_players(self):
         for index, player in enumerate(self._players):
@@ -44,13 +48,13 @@ class Yatzy:
 
     def _update_screen(self):
         for die in self._dice:
-            self._display.blit(self._d_images[die.getFace()], die.getPosition())
+            self._display.blit(self._d_images[die.get_face()], die.get_position())
 
         self._display.blit(self._scorecard_img, (0, 128))
 
         for player in self._players:
-            name_img = player.getText()
-            name_pos = player.getTextPos()
+            name_img = player.get_text()
+            name_pos = player.get_text_pos()
             self._display.blit(name_img, name_pos)
 
         pygame.display.flip()
@@ -72,9 +76,20 @@ if __name__ == "__main__":
     font = pygame.font.SysFont('Sans Serif', 30)
 
     player_list = []
-    nPlayers = int(input("How many players? "))
+
+    while True:
+        try:
+            n_players = int(input("How many players? "))
+        except:
+            print("invalid input")
+            continue
+        if not n_players in range(1, 5):
+            print("1 to 4 players")
+            continue
+        break
+
     print("Names:")
-    for i in range(nPlayers):
+    for i in range(n_players):
         player_name = input(f"p{i+1}: ")
         player_list.append(Player(player_name))
     game = Yatzy(player_list)
