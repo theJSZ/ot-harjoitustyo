@@ -3,9 +3,9 @@
 Sovellus on Yatzy-peli yhdestä neljään pelaajalle.
 
 ## Dokumentaatio
--[Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
--[Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
--[Käyttöohje](./dokumentaatio/kayttoohje.md)
+- [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
+- [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
+- [Käyttöohje](./dokumentaatio/kayttoohje.md)
 
 ## Käynnistys
 
