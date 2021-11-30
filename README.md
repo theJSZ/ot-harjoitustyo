@@ -14,4 +14,5 @@ Komento 'poetry run invoke start' käynnistää pelin.
 ## Testaus
 
 Komento 'poetry run invoke test' suorittaa testit
+
 Komento 'poetry run invoke coverage-report' generoi kattavuusraportin html-muodossa
