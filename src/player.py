@@ -49,13 +49,29 @@ class Player:
     def get_text_pos(self):
         return self._text_pos
 
+    def update_valisumma(self):
+        self._results["Välisumma"] = 0
+        target_strings = ["Ykköset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset"]
+        for string in target_strings:
+            if self._results[string] != 'x':
+                self._results["Välisumma"] += self._results[string]
+        if self._results["Välisumma"] >= 63:
+            self._results["Bonus"] = 50
+
     def mark_upstairs(self, target: int, dice: list):
         target_strings = ["", "Ykköset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset"]
+        if self._results[target_strings[target]] != 0:
+            return False
         for die in dice:
             if die.get_face() == target:
                 self._results[target_strings[target]] += target
+        if self._results[target_strings[target]] == 0:
+            self._results[target_strings[target]] = 'x'
+        return True                        
 
     def mark_pair(self, dice: list):
+        if self._results["1 pari"] != 0:
+            return False
         faces = [0 for _ in range(7)]
         for die in dice:
             faces[die.get_face()] += 1
@@ -64,9 +80,12 @@ class Player:
             if faces[face] >= 2:
                 self._results["1 pari"] = 2*face
                 return
-        self._results["1 pari"] = 0
+        self._results["1 pari"] = 'x'
+        return True
 
     def mark_two_pair(self, dice: list):
+        if self._results["2 paria"] != 0:
+            return False
         faces = [0 for _ in range(7)]
         total = 0
         for die in dice:
@@ -77,53 +96,66 @@ class Player:
             if faces[face] >= 2:
                 pairs.add(face)
         if len(pairs) < 2:
-            self._results["2 paria"] = 0
+            self._results["2 paria"] = 'x'
         else:
             total = 0
             total += max(pairs)*2
             pairs.remove(max(pairs))
             total += max(pairs)*2
             self._results["2 paria"] = total
-
+        return True
 
     def mark_three_kind(self, dice: list):
+        if self._results["3 samaa"] != 0:
+            return False
         faces = [0 for _ in range(7)]
-        total = 0
+        total = 'x'
         for die in dice:
             faces[die.get_face()] += 1
             if faces[die.get_face()] == 3:
                 total = 3*die.get_face()
         self._results["3 samaa"] = total
+        return True
 
     def mark_four_kind(self, dice: list):
+        if self._results["4 samaa"] != 0:
+            return False
         faces = [0 for _ in range(7)]
-        total = 0
+        total = 'x'
         for die in dice:
             faces[die.get_face()] += 1
             if faces[die.get_face()] == 4:
                 total = 4*die.get_face()
         self._results["4 samaa"] = total
+        return True
 
     def mark_small_straight(self, dice: list):
+        if self._results["Pieni suora"] != 0:
+            return False
         faces = []
         for die in dice:
             faces.append(die.get_face())
         if sorted(faces) == [1, 2, 3, 4, 5]:
             self._results["Pieni suora"] = 15
         else:
-            self._results["Pieni suora"] = 0
-
+            self._results["Pieni suora"] = 'x'
+        return True
 
     def mark_large_straight(self, dice: list):
+        if self._results["Suuri suora"] != 0:
+            return False
         faces = []
         for die in dice:
             faces.append(die.get_face())
         if sorted(faces) == [2, 3, 4, 5 ,6]:
             self._results["Suuri suora"] = 20
         else:
-            self._results["Suuri suora"] = 0
+            self._results["Suuri suora"] = 'x'
+        return True
 
     def mark_full_house(self, dice: list):
+        if self._results["Täyskäsi"] != 0:
+            return False
         die_set = set()
         total = 0
         for die in dice:
@@ -132,18 +164,25 @@ class Player:
             for die in dice:
                 total += die.get_face()
         else:
-            total = 0
+            total = 'x'
         self._results["Täyskäsi"] = total
+        return True
 
     def mark_chance(self, dice: list):
+        if self._results["Sattuma"] != 0:
+            return False
         total = 0
         for die in dice:
             total += die.get_face()
         self._results["Sattuma"] = total
+        return True
 
     def mark_yatzy(self, dice: list):
+        if self._results["Yatzy"] != 0:
+            return False
         if sorted(dice)[0] == sorted(dice)[4]:
             total = 50
         else:
-            total = 0
+            total = 'x'
         self._results["Yatzy"] = total
+        return True

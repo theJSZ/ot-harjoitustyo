@@ -17,6 +17,9 @@ class Die:
     def get_position(self):
         return (self._y, self._x)
 
+    def in_area(self, mouse_pos: tuple):
+        return (self._x < mouse_pos[1] < self._x + 65) and (self._y < mouse_pos[0] < self._y + 65) 
+
     def get_face(self):
         return self._face
 
@@ -29,6 +32,9 @@ class Die:
 
     def change_freeze_state(self):
         self._frozen = not self._frozen
+
+    def get_freeze_state(self):
+        return self._frozen
 
     def __gt__(self, other):
         return self.get_face() > other.get_face()
