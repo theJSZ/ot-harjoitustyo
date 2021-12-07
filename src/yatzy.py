@@ -123,11 +123,11 @@ class Yatzy:
                     result = CHECKER_FUNCTIONS[index](self._checker, self._dice)
                     self.player_in_turn.mark_downstairs(target_strings[index], result)
 
-                print()
-                print(self.player_in_turn.get_name())
-                for item in self.player_in_turn.get_results().items():
-                    print(item)
-                self.end_player_turn()
+                    print()
+                    print(self.player_in_turn.get_name())
+                    for item in self.player_in_turn.get_results().items():
+                        print(item)
+                    self.end_player_turn()
 
 
     def throw_dice(self):

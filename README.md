@@ -9,10 +9,15 @@ Sovellus on Yatzy-peli yhdestä neljään pelaajalle.
 
 ## Käynnistys
 
-Komento 'poetry run invoke start' käynnistää pelin.
+Komento 'poetry run invoke start' käynnistää pelin. Katso [käyttöohje](./dokumentaatio/kayttoohje.md)
 
 ## Testaus
 
 Komento 'poetry run invoke test' suorittaa testit
 
 Komento 'poetry run invoke coverage-report' generoi kattavuusraportin html-muodossa
+
+Komento 'pylint src' tarkistaa koodin tyyliseikat annettujen määritelmien mukaan
+
+#### TODO
+Tulokset eivät päivity näkyviin käyttöliittymään vaan vasta pelin päätyttyä terminaaliin. Koodin rakenteessa todennäköisesti huonoja ratkaisuja
