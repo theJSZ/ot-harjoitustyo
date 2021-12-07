@@ -1,23 +1,25 @@
-from player import Player
+from entities.player import Player
 from yatzy import Yatzy
 
-    
-player_list = []
+
+PLAYER_LIST = []
 
 while True:
     try:
-        n_players = int(input("How many players? "))
-    except:
+        N_PLAYERS = int(input("How many players? "))
+    except TypeError:
         print("invalid input")
         continue
-    if not n_players in range(1, 5):
+
+    if N_PLAYERS not in range(1, 5):
         print("1 to 4 players")
         continue
+
     break
 
 print("Names:")
-for i in range(n_players):
+for i in range(N_PLAYERS):
     player_name = input(f"p{i+1}: ")
-    player_list.append(Player(player_name))
-    
-game = Yatzy(player_list)
+    PLAYER_LIST.append(Player(player_name))
+
+GAME = Yatzy(PLAYER_LIST)

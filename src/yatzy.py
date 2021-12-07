@@ -1,30 +1,28 @@
-import pygame
-from die import Die
-from scorecard import Scorecard
 import sys
-from player import Player
+import pygame
+from entities.die import Die
+from entities.scorecard import Scorecard
+from entities.result_checker import ResultChecker
 
 DICE_Y_POS = 5
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 
-marker_functions = [Player.mark_pair,
-                    Player.mark_two_pair,
-                    Player.mark_three_kind,
-                    Player.mark_four_kind,
-                    Player.mark_small_straight,
-                    Player.mark_large_straight,
-                    Player.mark_full_house,
-                    Player.mark_chance,
-                    Player.mark_yatzy]
+CHECKER_FUNCTIONS = [ResultChecker.check_pair,
+                     ResultChecker.check_two_pair,
+                     ResultChecker.check_three_kind,
+                     ResultChecker.check_four_kind,
+                     ResultChecker.check_small_straight,
+                     ResultChecker.check_large_straight,
+                     ResultChecker.check_full_house,
+                     ResultChecker.check_chance,
+                     ResultChecker.check_yatzy]
 
 pygame.init()
 pygame.font.init()
-font = pygame.font.SysFont('Sans Serif', 30)
-clock = pygame.time.Clock()
+FONT = pygame.font.SysFont('Sans Serif', 30)
+CLOCK = pygame.time.Clock()
 
-
-    
 
 class Yatzy:
     def __init__(self, players):
@@ -35,6 +33,7 @@ class Yatzy:
         self._number_of_players = len(players)
         self._init_players()
         self._dice = [Die() for _ in range(5)]
+        self._checker = ResultChecker()
 
         for index, die in enumerate(self._dice):
             die.set_position((5 + index*73, DICE_Y_POS))
@@ -42,28 +41,14 @@ class Yatzy:
         self._run()
 
     def _run(self):
-        self._running = True
-        round = 0
 
-# For each round of 15:
-#  for each player:
-#   for 3 "phases": 
-#    roll
-#    if phase 3: mark, break (and next player phase 1)
-#    else:
-#     mark?
-#     if mark:
-#      break (and next player phase 1)
-
-        while round < 15:
-            round += 1
+        game_round = 0
+        while game_round < 15:
+            game_round += 1
             for player in self._players:
-                self.phase = 0
-                marked = False
-                for die in self._dice:
-                    if die.get_freeze_state():
-                        die.change_freeze_state()
-                while self.phase < 3 or not marked:
+                self.init_player_turn(player)
+                self.init_dice()
+                while self.phase < 3 or not self.marked:
                     # print(pygame.mouse.get_pos())
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
@@ -71,64 +56,105 @@ class Yatzy:
                             sys.exit()
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             mouse_pos = pygame.mouse.get_pos()
-                            clicked_item = self.handle_clicked_item(mouse_pos)
-
-                            if self.phase != 0:
-                                for die in self._dice:
-                                    if die.in_area(mouse_pos):
-                                        die.change_freeze_state()
-                                for index, y_pos in enumerate([172, 203, 234, 265, 296, 327]):
-                                    if mouse_pos[1] in range(y_pos, y_pos+30):
-                                        if (player.mark_upstairs(index+1, self._dice)):
-                                            player.update_valisumma()
-                                            print()
-                                            for item in player.get_results().items():
-                                                print(item)
-                                            marked = True
-                                            self.phase = 3
-                                for index, y_pos in enumerate([415, 446, 477, 508, 538, 569, 600, 631, 662]):
-                                    if mouse_pos[1] in range(y_pos, y_pos+30):
-                                        if (marker_functions[index](player, self._dice)):
-                                            print()
-                                            for item in player.get_results().items():
-                                                print(item)
-                                            marked = True
-                                            self.phase = 3
-
-                            # if clicked_item == "button" and self.phase < 3:
-                            #     self.throw_dice()
-                            #     self.phase += 1
+                            self.handle_clicked_item(mouse_pos)
 
                         self._update_screen()
         sys.exit()
+
+    def init_player_turn(self, player):
+        self.player_in_turn = player
+        self.phase = 0
+        self.marked = False
+
+    def init_dice(self):
+        for die in self._dice:
+            if die.get_freeze_state():
+                die.change_freeze_state()
+
 
     def handle_clicked_item(self, mouse_pos: tuple):
         if mouse_pos[1] in range(74, 124) and self.phase < 3:
             self.throw_dice()
             self.phase += 1
+            return
 
+        if self.phase != 0:
+            for die in self._dice:
+                if die.in_area(mouse_pos):
+                    die.change_freeze_state()
+                    return
+
+        # if clicked upstairs
+        for index, y_pos in enumerate([172, 203, 234, 265, 296, 327]):
+            if mouse_pos[1] in range(y_pos, y_pos+30):
+                target_strings = ["Ykköset",
+                                  "Kakkoset",
+                                  "Kolmoset",
+                                  "Neloset",
+                                  "Viitoset",
+                                  "Kuutoset"]
+                # if not yet marked
+                if self.player_in_turn.get_results()[target_strings[index]] == 0:
+                    result = self._checker.check_upstairs(index+1, self._dice)
+                    self.player_in_turn.mark_upstairs(index+1, result)
+
+                    print()
+                    print(self.player_in_turn.get_name())
+                    for item in self.player_in_turn.get_results().items():
+                        print(item)
+
+                    self.end_player_turn()
+                    return
+
+        # if clickd downstairs
+        for index, y_pos in enumerate([400, 431, 462, 500, 531, 562, 597, 628, 664]):
+            if mouse_pos[1] in range(y_pos, y_pos+30):
+                target_strings = ["1 pari",
+                                  "2 paria",
+                                  "3 samaa",
+                                  "4 samaa",
+                                  "Pieni suora",
+                                  "Suuri suora",
+                                  "Täyskäsi",
+                                  "Sattuma",
+                                  "Yatzy"]
+                # if not yet marked
+                if self.player_in_turn.get_results()[target_strings[index]] == 0:
+                    result = CHECKER_FUNCTIONS[index](self._checker, self._dice)
+                    self.player_in_turn.mark_downstairs(target_strings[index], result)
+
+                print()
+                print(self.player_in_turn.get_name())
+                for item in self.player_in_turn.get_results().items():
+                    print(item)
+                self.end_player_turn()
 
 
     def throw_dice(self):
         for die in self._dice:
             die.throw()
 
+    def end_player_turn(self):
+        self.marked = True
+        self.phase = 3
+
     def _init_players(self):
         for index, player in enumerate(self._players):
             name = player.get_name()
-            name_img = font.render(name, False, (0, 0, 0))
+            name_img = FONT.render(name, False, (0, 0, 0))
             name_img = pygame.transform.scale(name_img, (44, 20))
             player.set_text(name_img)
             player.set_text_pos((180 + index*47, 140))
-            player.set_turn(index)
 
     def _update_screen(self):
         for die in self._dice:
             die_pos = die.get_position()
             if die.get_freeze_state():
-                pygame.draw.rect(self._display, GREEN, (die_pos[0]-5, die_pos[1]-5, die_pos[0]+75, die_pos[1]+75))
+                pygame.draw.rect(self._display, GREEN, (die_pos[0]-5, die_pos[1]-5, 75, 75))
             else:
-                pygame.draw.rect(self._display, BLACK, (die_pos[0]-5, die_pos[1]-5, die_pos[0]+75, die_pos[1]+75))
+                pygame.draw.rect(
+                    self._display, BLACK,
+                    (die_pos[0]-5, die_pos[1]-5, die_pos[0]+75, die_pos[1]+75))
             self._display.blit(self._d_images[die.get_face()], die.get_position())
 
         self._display.blit(self._scorecard_img, (0, 128))
@@ -150,4 +176,4 @@ class Yatzy:
         self._scorecard_img = pygame.image.load('src/images/taulukko.png')  # 377 * 610
         # Each die has 377/5 = 75.4 pixels of space
         # Leave a margin of 5 on each side and they should be
-        # around 65 pixels
+        # agame_round 65 pixels

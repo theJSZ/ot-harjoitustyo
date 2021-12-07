@@ -1,11 +1,11 @@
 from random import randint
 
 class Die:
-    def __init__(self, face = None):
+    def __init__(self, face=None):
         self._frozen = False
         self._y = 0
         self._x = 0
-        if face == None:
+        if face is None:
             self.throw()
         else:
             self._face = face
@@ -18,7 +18,7 @@ class Die:
         return (self._y, self._x)
 
     def in_area(self, mouse_pos: tuple):
-        return (self._x < mouse_pos[1] < self._x + 65) and (self._y < mouse_pos[0] < self._y + 65) 
+        return (self._x < mouse_pos[1] < self._x + 65) and (self._y < mouse_pos[0] < self._y + 65)
 
     def get_face(self):
         return self._face
@@ -28,7 +28,7 @@ class Die:
 
     def throw(self):
         if not self._frozen:
-            self._face = randint(1,6)
+            self._face = randint(1, 6)
 
     def change_freeze_state(self):
         self._frozen = not self._frozen

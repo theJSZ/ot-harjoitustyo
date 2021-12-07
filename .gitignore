@@ -4,7 +4,7 @@
 /laskarit/viikko2/unicafe/htmlcov
 .pytest_cache/
 .coverage
-.pylintrc
 src/__pycache__/
 src/tests/__pycache__/
+src/entities/__pycache__/
 htmlcov/
