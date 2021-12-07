@@ -8,8 +8,8 @@ Sovellus on Yatzy-peli yhdestä neljään pelaajalle.
 - [Käyttöohje](./dokumentaatio/kayttoohje.md)
 
 ## Käynnistys
-
-Komento 'poetry run invoke start' käynnistää pelin. Katso [käyttöohje](./dokumentaatio/kayttoohje.md)
+1. Asenna riippuvuudet projektin juurihakemistossa komennolla 'poetry install'
+2. Komento 'poetry run invoke start' käynnistää pelin. Katso [käyttöohje](./dokumentaatio/kayttoohje.md)
 
 ## Testaus
 
