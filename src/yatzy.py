@@ -74,7 +74,7 @@ class Yatzy:
 
     def handle_clicked_item(self, mouse_pos: tuple):
         if mouse_pos[1] in range(74, 124) and self.phase < 3:
-            self.throw_dice()
+            self._throw_dice()
             self.phase += 1
             return
 
@@ -130,7 +130,7 @@ class Yatzy:
                     self.end_player_turn()
 
 
-    def throw_dice(self):
+    def _throw_dice(self):
         for die in self._dice:
             die.throw()
 
