@@ -5,16 +5,13 @@ from yatzy import Yatzy
 PLAYER_LIST = []
 
 while True:
-    try:
-        N_PLAYERS = int(input("How many players? "))
-    except TypeError:
-        print("invalid input")
-        continue
+    N_PLAYERS = input("How many players? [1 to 4]\n")
 
-    if N_PLAYERS not in range(1, 5):
+    if N_PLAYERS not in ("1", "2", "3", "4"):
         print("1 to 4 players")
         continue
 
+    N_PLAYERS = int(N_PLAYERS)
     break
 
 print("Names:")
