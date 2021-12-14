@@ -8,5 +8,5 @@
 |02.12. |6     |Toiminnot noppien lukitsemiselle, tulosten merkkaamiselle ym. Hyvin sotkuista koodia|
 |05.12. |4     |Edellisen session refaktorointia, pytest, pylint|
 |07.12. |2     |Viikon 5 vaatimuksia: kaaviot, pylint jne. Lisää refaktorointia|
-
-Yhteensä 17h 30min
+|14.12. |5     |Paljon toiminnallisuutta: hieno tuloslista, tulosten tarkistuksen bugi korjattu, refaktorointi käynnissä|
+Yhteensä 22h 30min

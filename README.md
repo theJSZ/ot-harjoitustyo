@@ -22,3 +22,4 @@ Komento 'pylint src' tarkistaa koodin tyyliseikat annettujen määritelmien muka
 
 #### TODO
 Refaktorointi!!
+Pelin pitäisi loppua nätimmin, nyt se vain sulkee itsensä kun viimeinen pelaaja lopettaa viimeisen vuoronsa
