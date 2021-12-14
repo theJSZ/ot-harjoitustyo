@@ -21,4 +21,4 @@ Komento 'poetry run invoke coverage-report' generoi kattavuusraportin html-muodo
 Komento 'pylint src' tarkistaa koodin tyyliseikat annettujen määritelmien mukaan
 
 #### TODO
-Tulokset eivät päivity näkyviin käyttöliittymään vaan vasta pelin päätyttyä terminaaliin. Koodin rakenteessa todennäköisesti huonoja ratkaisuja
+Refaktorointi!!
