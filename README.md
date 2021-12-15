@@ -1,6 +1,7 @@
 # Yatzy
 
 Sovellus on Yatzy-peli yhdestä neljään pelaajalle.
+[Vko 6 Release](https://github.com/theJSZ/ot-harjoitustyo/releases/tag/viikko6)
 
 ## Dokumentaatio
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
