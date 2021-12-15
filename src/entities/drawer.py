@@ -24,9 +24,13 @@ class Drawer:
     def update_screen(self):
         """Piirtää kaiken näytölle
         """
-        self.draw_dice_and_scorecard()
-        self.draw_player_data()
+        self.draw_dice()
+        self.hide_annotation()
         self.draw_annotation()
+        self.draw_scorecard()
+
+        for player in self.game.players:
+            self.draw_player_data(player)
 
         pygame.display.flip()
 
@@ -64,57 +68,59 @@ class Drawer:
                     prospective_result_pos = (x_position, COORDINATES[clickable_result])
                     self.game.display.blit(prospective_result_img, prospective_result_pos)
 
-    def draw_annotation(self):
+    def draw_annotation(self, annotation=None, game_in_progress=True):
         """Piirtää infotekstin noppien ja tuloslistan väliin
         """
-        if self.game.player_in_turn.rolling_in_progress:
-            return
+        if game_in_progress:
+            if self.game.player_in_turn.rolling_in_progress:
+                return
 
-        phase = self.game.player_in_turn.phase
-        annotation = f'{self.game.player_in_turn.name}'
-        if phase == 0:
-            annotation += ', heitto 1'
-            if not self.game.player_in_turn.played():
-                annotation += '. Klikkaa tällä alueella'
-        elif phase < 3:
-            annotation += f', heitto {phase+1} tai merkkaa tulos'
-        else:
-            annotation += ", merkkaa tulos"
+            phase = self.game.player_in_turn.phase
+            annotation = f'{self.game.player_in_turn.name}'
+            if phase == 0:
+                annotation += ', heitto 1'
+                if not self.game.player_in_turn.played():
+                    annotation += '. Klikkaa tällä alueella'
+            elif phase < 3:
+                annotation += f', heitto {phase+1} tai merkkaa tulos'
+            else:
+                annotation += ", merkkaa tulos"
 
         annotation_img = FONT.render(annotation, False, WHITE)
         annotation_width = annotation_img.get_size()[0]
         annotation_x_position = (377 - annotation_width) / 2
         self.game.display.blit(annotation_img, (annotation_x_position, 90))
 
-    def draw_player_data(self):
+    def draw_player_data(self, player, game_in_progress=True):
         """Piirtää pelaajien nimet, tarjolla olevat tulokset
         ja jo kirjatut tulokset (kutsuen draw_prospective_results)
         """
-        for player in self.game.players:
-            # draw player names
-            name_img = player.text
-            name_img_width = name_img.get_size()[0]
+        # for player in self.game.players:
+        # draw player names
+        name_img = player.text
+        name_img_width = name_img.get_size()[0]
 
-            name_y_pos = player.text_pos[1] - 1
-            name_x_pos = player.text_pos[0] + (45 - name_img_width) / 2
+        name_y_pos = player.text_pos[1] - 1
+        name_x_pos = player.text_pos[0] + (45 - name_img_width) / 2
 
-            self.game.display.blit(name_img, (name_x_pos, name_y_pos))
+        self.game.display.blit(name_img, (name_x_pos, name_y_pos))
 
+        if game_in_progress:
             if self.game.player_in_turn.phase > 0 and not player.rolling_in_progress:
                 if player is self.game.player_in_turn:
                     self.draw_prospective_results(player)
 
-            # draw player results
-            for result_name, result_value in player.results.items():
-                if result_value == 0:
-                    continue
+        # draw player results
+        for result_name, result_value in player.results.items():
+            if result_value == 0:
+                continue
 
-                result_img = FONT.render(str(result_value), False, BLACK)
-                centering_addition = (RESULT_BOX_WIDTH - result_img.get_size()[0]) / 2
-                result_pos = (player.text_pos[0] + centering_addition, COORDINATES[result_name])
-                self.game.display.blit(result_img, result_pos)
+            result_img = FONT.render(str(result_value), False, BLACK)
+            centering_addition = (RESULT_BOX_WIDTH - result_img.get_size()[0]) / 2
+            result_pos = (player.text_pos[0] + centering_addition, COORDINATES[result_name])
+            self.game.display.blit(result_img, result_pos)
 
-    def draw_dice_and_scorecard(self):
+    def draw_dice(self):
         """Piirtää nopat ja tuloslistan
         """
         for die in self.game.dice:
@@ -127,9 +133,10 @@ class Drawer:
                     self.draw_die_border(die, BLACK)
             self.game.display.blit(self._d_images[die.face], die.get_position())
 
-        # hides the previous annotation
+    def hide_annotation(self):
         pygame.draw.rect(self.game.display, BLACK, (0, 73, 377, 377))
 
+    def draw_scorecard(self):
         self.game.display.blit(self._scorecard_img, (0, 128))
 
     def _load_dice_images(self):

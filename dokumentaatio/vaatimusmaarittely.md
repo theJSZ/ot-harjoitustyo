@@ -30,8 +30,8 @@ Tulosnäkymän pitäisi päivittyä pelin aikana
 
 ## Jatkokehitysideoita
 
-- Pelin dataa säilytetään tietokannassa
+- Pelin dataa säilytetään tietokannassa [x]
 - High score-lista
-- Mahdollisuus nähdä menneiden pelien pistetaulukoita
+- Mahdollisuus nähdä menneiden pelien pistetaulukoita [x]
 - Tekoäly?
-- Hiiren osoittimen vieminen pistetaulukon ruudun kohdalle voisi näyttää harmaalla pistemäärän jonka valinta tuottaisi
+- Hiiren osoittimen vieminen pistetaulukon ruudun kohdalle voisi näyttää harmaalla pistemäärän jonka valinta tuottaisi [tavallaan tehty]

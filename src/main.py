@@ -2,6 +2,7 @@ from time import sleep
 import random
 import math
 import os
+from database_interface import DatabaseReader
 from entities.player import Player
 from yatzy import Yatzy
 
@@ -32,29 +33,34 @@ if __name__ == "__main__":
         os.system('clear')
         print_yatzy(0)
 
-        N_PLAYERS = input("How many players? (1 to 4)\n")
+        N_PLAYERS = input("Pelaajien määrä? (1-4, tai 0: katso vanhoja tuloksia)\n")
 
-        if N_PLAYERS not in ("1", "2", "3", "4"):
+        if N_PLAYERS not in ("1", "2", "3", "4", "0"):
             continue
 
         N_PLAYERS = int(N_PLAYERS)
         break
 
-    for i in range(N_PLAYERS):
+    if N_PLAYERS == 0:
+        db_reader = DatabaseReader()
+        db_reader.show_game(1)
+
+    else:    
+        for i in range(N_PLAYERS):
+            os.system('clear')
+            print_yatzy(0)
+
+            player_name = "xxxx"
+            while invalid_player_name():
+                player_name = input(f"Initials for player {i+1}: ")
+                check_player_name()
+
+            PLAYER_LIST.append(Player(player_name))
+
         os.system('clear')
-        print_yatzy(0)
 
-        player_name = "xxxx"
-        while invalid_player_name():
-            player_name = input(f"Initials for player {i+1}: ")
-            check_player_name()
-
-        PLAYER_LIST.append(Player(player_name))
-
-    os.system('clear')
-
-    for i in range(15):
-        print_yatzy(random.randint(0, 10) + 18 + (int(math.sin(i/5)*30)))
-        sleep(0.10)
-    os.system('clear')
-    GAME = Yatzy(PLAYER_LIST)
+        for i in range(15):
+            print_yatzy(random.randint(0, 10) + 18 + (int(math.sin(i/5)*30)))
+            sleep(0.10)
+        os.system('clear')
+        GAME = Yatzy(PLAYER_LIST)

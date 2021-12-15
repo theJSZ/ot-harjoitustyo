@@ -1,7 +1,8 @@
 import sys
 from time import sleep
 import pygame
-from database_interface import DatabaseInterface
+from database_interface import DatabaseWriter
+from database_interface import DatabaseReader
 from entities.die import Die
 from entities.drawer import Drawer
 from entities.click_handler import ClickHandler
@@ -31,7 +32,8 @@ class Yatzy:
         self._click_handler = ClickHandler(self)
         self.clock = pygame.time.Clock()
 
-        self.db_interface = DatabaseInterface()
+        self.db_writer = DatabaseWriter()
+        self.db_reader = DatabaseReader()
 
         self.player_in_turn = None
         # self.phase = 0
@@ -51,8 +53,8 @@ class Yatzy:
             for player in self.players:
                 self.player_turn(player)
 
-        self.db_interface.add_game(self.players)
-        sys.exit()
+        self.db_writer.add_game(self.players)
+        self.db_reader.show_game()
 
 
     def player_turn(self, player):

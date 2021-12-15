@@ -1,7 +1,8 @@
 ## Käyttöohje
 
-Käynnistyksen jälkeen syötä komentorivillä haluttu pelaajien määrä.
-Syötä kaikille pelaajille nimi.
+Käynnistyksen jälkeen syötä komentorivillä haluttu pelaajien määrä, tai 0 jos haluat nähdä menneiden pelien tuloksia.
+Tulosnäkymässä voi selata tuloksia nuolinäppäimillä.  
+Jos valitsit pelaajien määrän, syötä kaikille pelaajille nimi.
 
 Peliä pelataan 15 kierrosta joissa jokainen palaaja tekee vuorollaan seuraavat asiat:
 
@@ -13,3 +14,5 @@ Peliä pelataan 15 kierrosta joissa jokainen palaaja tekee vuorollaan seuraavat 
   - tässä vaiheessa tuloslistassa näkyy harmaalla kuinka paljon pisteitä eri ruuduissa olisi tarjolla
 
  - Sitten pitää merkata tulos jollekin riville tuloslistassa (tämän voi halutessaan tehdä jo ensimmäisen tai toisen heiton jälkeen), ei kuitenkaan riveille "Välisumma" tai "Summa", nämä lasketaan muiden perusteella automaattisesti. Jos välisumman yläpuolella olevissa ruuduissa on 63 pistettä tai enemmän, pelaaja saa 50 pisteen bonuksen. Tarkemmat pisteytyssäännöt [täällä](https://fi.wikipedia.org/wiki/Yatzy#Pistelasku)
+
+Pelin lopuksi avautuu tulosnäkymä jossa voi selata tuloksia.
