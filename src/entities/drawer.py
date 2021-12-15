@@ -13,7 +13,7 @@ pygame.init()
 pygame.font.init()
 FONT = pygame.font.SysFont('Sans Serif', 30)
 CHECKER_FUNCTIONS = ResultChecker.get_functions()
-
+RESULT_BOX_WIDTH = 47
 class Drawer:
     def __init__(self, game):
         self.game = game
@@ -57,11 +57,12 @@ class Drawer:
 
                 if prospective_result != 0:
                     prospective_result_img = FONT.render(str(prospective_result), False, GRAY)
-                    prospective_result_pos = (player._text_pos[0] + 10, COORDINATES[clickable_result])
+                    centering_addition = (RESULT_BOX_WIDTH - prospective_result_img.get_size()[0]) / 2
+                    prospective_result_pos = (player._text_pos[0] + centering_addition, COORDINATES[clickable_result])
                     self.game._display.blit(prospective_result_img, prospective_result_pos)
     
     def draw_annotation(self):
-        """Piirtää aputekstin noppien ja tuloslistan väliin
+        """Piirtää infotekstin noppien ja tuloslistan väliin
         """
         if self.game._rolling_in_progress:
             return
@@ -105,7 +106,8 @@ class Drawer:
                     continue
 
                 result_img = FONT.render(str(result_value), False, BLACK)
-                result_pos = (player._text_pos[0] + 10, COORDINATES[result_name])
+                centering_addition = (RESULT_BOX_WIDTH - result_img.get_size()[0]) / 2
+                result_pos = (player._text_pos[0] + centering_addition, COORDINATES[result_name])
                 self.game._display.blit(result_img, result_pos)
 
     def draw_dice_and_scorecard(self):
