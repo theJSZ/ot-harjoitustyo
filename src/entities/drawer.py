@@ -4,18 +4,14 @@ from resources.clickable_result_names import CLICKABLE_RESULTS
 from entities.result_checker import ResultChecker
 
 
-DICE_Y_POS = 5
 GREEN = (10, 200, 10)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-# RED = (255, 0, 0)
 PURPLE = (200, 10, 200)
 GRAY = (160, 160, 160)
-# DARK_GRAY = (50, 50, 50)
 pygame.init()
 pygame.font.init()
 FONT = pygame.font.SysFont('Sans Serif', 30)
-CLOCK = pygame.time.Clock()
 CHECKER_FUNCTIONS = ResultChecker.get_functions()
 
 class Drawer:
@@ -23,7 +19,16 @@ class Drawer:
         self.game = game
         self._d_images = [None]
         self._load_dice_images()
+        self._scorecard_img = pygame.image.load('src/images/taulukko.png')  # 377 * 610
 
+    def update_screen(self):
+        """Piirtää kaiken näytölle
+        """
+        self.draw_dice_and_scorecard()
+        self.draw_player_data()
+        self.draw_annotation()
+
+        pygame.display.flip()
 
     def draw_die_border(self, die, color):
         """Piirtää annetun värisen kehyksen
@@ -54,7 +59,6 @@ class Drawer:
                     prospective_result_img = FONT.render(str(prospective_result), False, GRAY)
                     prospective_result_pos = (player._text_pos[0] + 10, COORDINATES[clickable_result])
                     self.game._display.blit(prospective_result_img, prospective_result_pos)
-
     
     def draw_annotation(self):
         """Piirtää aputekstin noppien ja tuloslistan väliin
@@ -76,7 +80,6 @@ class Drawer:
         annotation_width = annotation_img.get_size()[0]
         annotation_x_position = (377 - annotation_width) / 2
         self.game._display.blit(annotation_img, (annotation_x_position, 90))
-
 
     def draw_player_data(self):
         """Piirtää pelaajien nimet, tarjolla olevat tulokset
@@ -130,4 +133,3 @@ class Drawer:
             self._d_images.append(
                 pygame.transform.scale(pygame.image.load(f'src/images/{i}.png'), (65, 65)))
 
-        self._scorecard_img = pygame.image.load('src/images/taulukko.png')  # 377 * 610

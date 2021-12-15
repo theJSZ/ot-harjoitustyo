@@ -70,7 +70,8 @@ class Player:
         if result_value == 0:
             result_value = 'x'
        
-        self._results[target_strings[result_name]] = result_value
+        # self._results[target_strings[result_name]] = result_value
+        self._results[result_name] = result_value
         self.update_valisumma()
         self.update_total()
 
