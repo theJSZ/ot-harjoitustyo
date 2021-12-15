@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import pygame
+from database_interface import DatabaseInterface
 from entities.die import Die
 from entities.drawer import Drawer
 from entities.click_handler import ClickHandler
@@ -30,6 +31,8 @@ class Yatzy:
         self._click_handler = ClickHandler(self)
         self.clock = pygame.time.Clock()
 
+        self.db_interface = DatabaseInterface()
+
         self.player_in_turn = None
         # self.phase = 0
 
@@ -48,7 +51,7 @@ class Yatzy:
             for player in self.players:
                 self.player_turn(player)
 
-        sleep(100)
+        self.db_interface.add_game(self.players)
         sys.exit()
 
 
