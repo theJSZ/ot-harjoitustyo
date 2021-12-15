@@ -44,6 +44,7 @@ class Yatzy:
         while game_round < 15:
             game_round += 1
 
+
             for player in self.players:
                 self.player_turn(player)
 

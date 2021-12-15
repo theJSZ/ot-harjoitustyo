@@ -9,21 +9,18 @@ class TestResultChecker(unittest.TestCase):
 
     def test_check_upstairs(self):
         for die in self.dice:
-            die.set_face(2)
+            die.face = 2
         self.assertEqual(self.result_checker.check_upstairs(2, self.dice), 10)
         self.assertEqual(self.result_checker.check_upstairs(3, self.dice), 0)
 
         for die in self.dice:
-            die.set_face(4)
+            die.face = 4
         self.assertEqual(self.result_checker.check_upstairs(2, self.dice), 0)
         self.assertEqual(self.result_checker.check_upstairs(4, self.dice), 20)
 
     def test_check_downstairs(self):
-        self.dice[0].set_face(1)
-        self.dice[1].set_face(2)
-        self.dice[2].set_face(3)
-        self.dice[3].set_face(4)
-        self.dice[4].set_face(5)
+        for i in range(5):
+            self.dice[i].face = i+1
 
         self.assertEqual(self.result_checker.check_pair(self.dice), 0)
         self.assertEqual(self.result_checker.check_two_pair(self.dice), 0)
@@ -35,11 +32,11 @@ class TestResultChecker(unittest.TestCase):
         self.assertEqual(self.result_checker.check_chance(self.dice), 15)
         self.assertEqual(self.result_checker.check_yatzy(self.dice), 0)
 
-        self.dice[0].set_face(1)
-        self.dice[1].set_face(1)
-        self.dice[2].set_face(3)
-        self.dice[3].set_face(3)
-        self.dice[4].set_face(5)
+        self.dice[0].face = 1
+        self.dice[1].face = 1
+        self.dice[2].face = 3
+        self.dice[3].face = 3
+        self.dice[4].face = 5
 
         self.assertEqual(self.result_checker.check_pair(self.dice), 6)
         self.assertEqual(self.result_checker.check_two_pair(self.dice), 8)
@@ -51,11 +48,8 @@ class TestResultChecker(unittest.TestCase):
         self.assertEqual(self.result_checker.check_chance(self.dice), 13)
         self.assertEqual(self.result_checker.check_yatzy(self.dice), 0)
 
-        self.dice[0].set_face(1)
-        self.dice[1].set_face(1)
-        self.dice[2].set_face(1)
-        self.dice[3].set_face(5)
-        self.dice[4].set_face(5)
+        self.dice[2].face = 1
+        self.dice[3].face = 5
 
         self.assertEqual(self.result_checker.check_pair(self.dice), 10)
         self.assertEqual(self.result_checker.check_two_pair(self.dice), 12)
@@ -67,11 +61,10 @@ class TestResultChecker(unittest.TestCase):
         self.assertEqual(self.result_checker.check_chance(self.dice), 13)
         self.assertEqual(self.result_checker.check_yatzy(self.dice), 0)
 
-        self.dice[0].set_face(2)
-        self.dice[1].set_face(2)
-        self.dice[2].set_face(2)
-        self.dice[3].set_face(2)
-        self.dice[4].set_face(5)
+        self.dice[0].face = 2
+        self.dice[1].face = 2
+        self.dice[2].face = 2
+        self.dice[3].face = 2
 
         self.assertEqual(self.result_checker.check_pair(self.dice), 4)
         self.assertEqual(self.result_checker.check_two_pair(self.dice), 0)
@@ -83,11 +76,9 @@ class TestResultChecker(unittest.TestCase):
         self.assertEqual(self.result_checker.check_chance(self.dice), 13)
         self.assertEqual(self.result_checker.check_yatzy(self.dice), 0)
 
-        self.dice[0].set_face(6)
-        self.dice[1].set_face(2)
-        self.dice[2].set_face(3)
-        self.dice[3].set_face(4)
-        self.dice[4].set_face(5)
+        self.dice[0].face = 6
+        self.dice[2].face = 3
+        self.dice[3].face = 4
 
         self.assertEqual(self.result_checker.check_pair(self.dice), 0)
         self.assertEqual(self.result_checker.check_two_pair(self.dice), 0)
@@ -99,11 +90,8 @@ class TestResultChecker(unittest.TestCase):
         self.assertEqual(self.result_checker.check_chance(self.dice), 20)
         self.assertEqual(self.result_checker.check_yatzy(self.dice), 0)
 
-        self.dice[0].set_face(5)
-        self.dice[1].set_face(5)
-        self.dice[2].set_face(5)
-        self.dice[3].set_face(5)
-        self.dice[4].set_face(5)
+        for die in self.dice:
+            die.face = 5
 
         self.assertEqual(self.result_checker.check_pair(self.dice), 10)
         self.assertEqual(self.result_checker.check_two_pair(self.dice), 0)
