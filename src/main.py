@@ -14,13 +14,13 @@ def print_yatzy(offset):
     print(offset*' ' + u'\u2517' + 5*u'\u2501' + u'\u251B', flush=True)
 
 def invalid_player_name():
-    lowercase_names = [player.get_name().lower() for player in PLAYER_LIST]
+    lowercase_names = [player._name.lower() for player in PLAYER_LIST]
     return len(player_name) > 3 or player_name.lower() in lowercase_names
 
 def check_player_name():
     if len(player_name) > 3:
         print("3 characters or less to fit on score card :(\n")
-    if player_name.lower() in [player.get_name().lower() for player in PLAYER_LIST]:
+    if player_name.lower() in [player._name.lower() for player in PLAYER_LIST]:
         print("Name already in use :(\n")
 
 

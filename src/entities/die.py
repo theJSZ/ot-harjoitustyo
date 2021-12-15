@@ -13,7 +13,7 @@ class Die:
         if face is None:
             self.throw()
         else:
-            self._face = face
+            self.face = face
 
     def set_position(self, pos: tuple):
         """Määrittää nopan sijainnin käyttöliittymässä
@@ -43,27 +43,27 @@ class Die:
         """
         return (self._x < mouse_pos[1] < self._x + 65) and (self._y < mouse_pos[0] < self._y + 65)
 
-    def get_face(self):
-        """Palauttaa nopan arvon
+    # def get_face(self):
+    #     """Palauttaa nopan arvon
 
-        Returns:
-            int: arvo
-        """
-        return self._face
+    #     Returns:
+    #         int: arvo
+    #     """
+    #     return self._face
 
-    def set_face(self, number: int):
-        """Asettaa nopan haluttuun arvoon
+    # def set_face(self, number: int):
+    #     """Asettaa nopan haluttuun arvoon
 
-        Args:
-            number (int): haluttu arvo
-        """
-        self._face = number
+    #     Args:
+    #         number (int): haluttu arvo
+    #     """
+    #     self._face = number
 
     def throw(self):
         """Jos noppa ei jäädytetty, arpoo uuden arvon
         """
         if not self._frozen:
-            self._face = randint(1, 6)
+            self.face = randint(1, 6)
 
     def change_freeze_state(self):
         """Muuttaa nopan jäädytys-statuksen päinvastaiseksi
@@ -88,7 +88,7 @@ class Die:
         Returns:
             True / False
         """
-        return self.get_face() > other.get_face()
+        return self.face > other.face
 
     def __eq__(self, other):
         """Tarkistaa onko nopan arvo sama kuin toisella nopalla,
@@ -100,4 +100,4 @@ class Die:
         Returns:
             True / False
         """
-        return self.get_face() == other.get_face()
+        return self.face == other.face

@@ -38,38 +38,6 @@ class Player:
                 return True
         return False
 
-    def get_results(self):
-        """Palauttaa pelaajan tuloslistan
-
-        Returns:
-            dict: tuloslista
-        """
-        return self._results
-
-    def get_name(self):
-        """Palauttaa pelaajan nimen
-
-        Returns:
-            string: pelaajan nimi
-        """
-        return self._name
-
-    def set_text(self, img):
-        """Antaa pelaajalle kuvaesityksen nimestä
-
-        Args:
-            img: kuva nimestä
-        """
-        self._text = img
-
-    def get_text(self):
-        """Palauttaa kuvaesityksen nimestä
-
-        Returns:
-            image(?): kuva nimestä
-        """
-        return self._text
-
     def set_text_pos(self, pos: tuple):
         """Asettaa nimitekstille paikan käyttöliittymään
 
@@ -77,14 +45,6 @@ class Player:
             pos (tuple): nimen koordinaatit
         """
         self._text_pos = (pos)
-
-    def get_text_pos(self):
-        """Palauttaa nimen paikan käyttöliittymässä
-
-        Returns:
-            tuple: nimen koordinaatit
-        """
-        return self._text_pos
 
     def update_valisumma(self):
         """Päivittää tuloslistan välisumman
@@ -109,9 +69,7 @@ class Player:
         target_strings = ["", "Ykköset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset"]
         if result_value == 0:
             result_value = 'x'
-        if self._results[target_strings[result_name]] != 0:
-            print("something is wrong, trying to mark over existing result")
-            return
+       
         self._results[target_strings[result_name]] = result_value
         self.update_valisumma()
         self.update_total()
@@ -126,9 +84,7 @@ class Player:
         """
         if result == 0:
             result = 'x'
-        if self._results[result_name] != 0:
-            print("something is wrong, trying to mark over existing result")
-            return
+       
         self._results[result_name] = result
         self.update_total()
 
@@ -136,10 +92,20 @@ class Player:
         """Päivittää yhteispisteet, laskee yhteen kaiken muun paitsi
         "Välisumma" ja "Yhteensä"
         """
+        items_to_sum = ["Välisumma",
+                        "1 pari",
+                        "2 paria",
+                        "3 samaa",
+                        "4 samaa",
+                        "Pieni suora",
+                        "Suuri suora",
+                        "Täyskäsi",
+                        "Sattuma",
+                        "Yatzy"]
+
         total = 0
-        for name, value in self._results.items():
-            if value == 'x' or name in ["Ykköset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset", "Yhteensä"]: # or name == "Yhteensä":
-                continue
-            total += value
+        for item in items_to_sum:
+            if self._results[item] != 'x':
+                total += self._results[item]
 
         self._results["Yhteensä"] = total
