@@ -22,5 +22,4 @@ Komento 'poetry run invoke coverage-report' generoi kattavuusraportin html-muodo
 Komento 'pylint src' tarkistaa koodin tyyliseikat annettujen määritelmien mukaan
 
 #### TODO
-Refaktorointi!!
-Pelin pitäisi loppua nätimmin, nyt se vain sulkee itsensä kun viimeinen pelaaja lopettaa viimeisen vuoronsa
+Refaktorointi edelleen kesken, etenkin uusi tietokantaluokka on retuperällä.
