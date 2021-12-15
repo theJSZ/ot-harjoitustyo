@@ -27,6 +27,17 @@ class Player:
                          "Yatzy":       0,
                          "Yhteensä":    0}
 
+    def played(self):
+        """Palauttaa tiedon onko pelaaja jo pelannut
+
+        Returns:
+            bool: on / ei ole pelannut
+        """
+        for value in self._results.values():
+            if value != 0:
+                return True
+        return False
+
     def get_results(self):
         """Palauttaa pelaajan tuloslistan
 

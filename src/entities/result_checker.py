@@ -1,5 +1,16 @@
 class ResultChecker:
 
+    def get_functions():
+        return [ResultChecker.check_pair,
+                ResultChecker.check_two_pair,
+                ResultChecker.check_three_kind,
+                ResultChecker.check_four_kind,
+                ResultChecker.check_small_straight,
+                ResultChecker.check_large_straight,
+                ResultChecker.check_full_house,
+                ResultChecker.check_chance,
+                ResultChecker.check_yatzy]
+
     def check_upstairs(self, target: int, dice: list):
         total = 0
 

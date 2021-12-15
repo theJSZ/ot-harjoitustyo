@@ -1,8 +1,9 @@
 import sys
 import pygame
+import random
+from time import sleep
+from entities.drawer import Drawer
 from entities.die import Die
-from entities.player import Player
-from entities.scorecard import Scorecard
 from entities.result_checker import ResultChecker
 from resources.coordinates import COORDINATES
 from resources.clickable_result_names import CLICKABLE_RESULTS
@@ -15,17 +16,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 PURPLE = (200, 0, 200)
 GRAY = (180, 180, 180)
-# pygame.mixer.init()
-
-CHECKER_FUNCTIONS = [ResultChecker.check_pair,
-                     ResultChecker.check_two_pair,
-                     ResultChecker.check_three_kind,
-                     ResultChecker.check_four_kind,
-                     ResultChecker.check_small_straight,
-                     ResultChecker.check_large_straight,
-                     ResultChecker.check_full_house,
-                     ResultChecker.check_chance,
-                     ResultChecker.check_yatzy]
+CHECKER_FUNCTIONS = ResultChecker.get_functions()
 
 pygame.init()
 pygame.font.init()
@@ -38,21 +29,22 @@ class Yatzy:
     """
     def __init__(self, players):
         self._display = pygame.display.set_mode((377, 760))
+        self._dice = [Die() for _ in range(5)]
+        self._place_dice()
         self._d_images = [None]
         self._load_images()
+
         self._players = players
         self._number_of_players = len(players)
         self._init_players()
-        self._dice = [Die() for _ in range(5)]
+        
         self._checker = ResultChecker()
-        self._turn_started = False
-        self._rolling_in_progress = False
-        self.player_in_turn = None
-        self.phase = 0
+        self._drawer = Drawer(self._display)
 
-        for index, die in enumerate(self._dice):
-            die.set_position((5 + index*73, DICE_Y_POS))
-        self._scorecard = Scorecard(self._players)
+        self._rolling_in_progress = False
+        self._player_in_turn = None
+        self._phase = 0
+
         self._run()
 
 
@@ -67,6 +59,7 @@ class Yatzy:
             for player in self._players:
                 self.player_turn(player)
                 
+        sleep(100)
         sys.exit()
 
 
@@ -77,18 +70,18 @@ class Yatzy:
         Args:
             player (Player): vuorossa oleva pelaaja
         """
-        self.player_in_turn = player
-        self.phase = 0
+        self._player_in_turn = player
+        self._phase = 0
         self.marked = False
 
         for die in self._dice:
             if die.get_freeze_state():
                 die.change_freeze_state()
 
-        while self.phase < 3 or not self.marked:
+        while self._phase < 3 or not self.marked:
             CLOCK.tick(30)
 
-            if self.phase == 3:
+            if self._phase == 3:
                 self.freeze_all()
 
             for event in pygame.event.get():
@@ -116,15 +109,15 @@ class Yatzy:
         Args:
             mouse_pos (tuple): hiiren sijainti
         """
-        if self.phase > 0:
+        if self._phase > 0:
             for index, y_pos in enumerate(y_positions_downstairs):
                 if mouse_pos[1] in range(y_pos, y_pos+30):
                     target_strings = CLICKABLE_RESULTS[6:]
 
                     # if not yet marked
-                    if self.player_in_turn.get_results()[target_strings[index]] == 0:
+                    if self._player_in_turn.get_results()[target_strings[index]] == 0:
                         result = CHECKER_FUNCTIONS[index](self._checker, self._dice)
-                        self.player_in_turn.mark_downstairs(target_strings[index], result)
+                        self._player_in_turn.mark_downstairs(target_strings[index], result)
                         self.end_player_turn()
 
     def handle_clicked_upstairs(self, mouse_pos):
@@ -134,15 +127,15 @@ class Yatzy:
         Args:
             mouse_pos (tuple): hiiren sijainti
         """
-        if self.phase > 0:
+        if self._phase > 0:
             for index, y_pos in enumerate(y_positions_upstairs):
                 if mouse_pos[1] in range(y_pos, y_pos+30):
                     target_strings = CLICKABLE_RESULTS[:6]
 
                     # if not yet marked
-                    if self.player_in_turn.get_results()[target_strings[index]] == 0:
+                    if self._player_in_turn.get_results()[target_strings[index]] == 0:
                         result = self._checker.check_upstairs(index+1, self._dice)
-                        self.player_in_turn.mark_upstairs(index+1, result)
+                        self._player_in_turn.mark_upstairs(index+1, result)
                         self.end_player_turn()
 
     def handle_clicked_die(self, mouse_pos):
@@ -151,7 +144,7 @@ class Yatzy:
         Args:
             mouse_pos (tuple): hiiren sijainti
         """
-        if self.phase in [1, 2]:
+        if self._phase in [1, 2]:
             for die in self._dice:
                 if die.in_area(mouse_pos):
                     die.change_freeze_state()
@@ -162,33 +155,54 @@ class Yatzy:
         Args:
             mouse_pos (tuple): hiiren sijainti
         """
-        if mouse_pos[1] in range(74, 124) and self.phase < 3:
-            self._turn_started = True
-            self._rolling_in_progress = True  # to prevent prospective results from flashing
-            for _ in range(10):
-                CLOCK.tick(30)
-                self._throw_dice()
-                self._update_screen()
-            self.phase += 1
-            self._rolling_in_progress = False
+        if mouse_pos[1] in range(74, 124) and self._phase < 3:
+            if not self._all_dice_frozen():
+                self._rolling_in_progress = True  # to prevent prospective results from flashing
+                rolling_times = [random.randint(5,30) for _ in range(5)]
+                for time in range(max(rolling_times)):
+                    CLOCK.tick(20)
+                    self._update_screen()
+                    if not self._throw_dice(rolling_times, time):
+                        break
+                self._phase += 1
+                self._rolling_in_progress = False
 
     def freeze_all(self):
         for die in self._dice:
             if not die.get_freeze_state():
                 die.change_freeze_state()
 
-    def _throw_dice(self):
+    def _all_dice_frozen(self):
+        for die in self._dice:
+            if die.get_freeze_state() == False:
+                return False
+        return True
+
+    def _throw_dice(self, rolling_times, time):
         """Kutsuu kaikkien noppien throw()-metodia
         """
-        for die in self._dice:
-            die.throw()
+        handled = 0
+
+        for die_number, die in enumerate(self._dice):
+            if die.get_freeze_state():
+                handled += 1
+                if handled == 5:
+                    return False
+                continue
+
+            if rolling_times[die_number] > time:
+                die.throw()
+            else:
+                handled += 1
+                if handled == 5:
+                    return False
+        return True
 
     def end_player_turn(self):
         """Päättää pelaajan vuoron
         """
         self.marked = True
-        self.phase = 3
-        self._turn_started = False
+        self._phase = 3
 
     def _init_players(self):
         """Luo kaikille pelaajille name-parametrista kuvan
@@ -197,15 +211,19 @@ class Yatzy:
         for index, player in enumerate(self._players):
             name = player.get_name()
             name_img = FONT.render(name, False, BLACK)
+            if name_img.get_size()[0] > 44:
+                name_img = pygame.transform.scale(name_img, (44, 20))
             player.set_text(name_img)
-            player.set_text_pos((180 + index*47, 140))
+            name_x_position = 180 + index*47
+            player.set_text_pos((name_x_position, 145))
 
     def _update_screen(self):
         """Piirtää kaiken näytölle
         """
         self.draw_dice_and_scorecard()
         self.draw_player_data()
-        self.draw_annotation()
+        if not self._rolling_in_progress:
+            self.draw_annotation()
 
         pygame.display.flip()
 
@@ -213,7 +231,7 @@ class Yatzy:
         """Piirtää nopat ja tuloslistan
         """
         for die in self._dice:
-            if self.phase == 3:
+            if self._phase == 3:
                 self.draw_die_border(die, PURPLE)
             else:
                 if die.get_freeze_state():
@@ -232,11 +250,15 @@ class Yatzy:
         for player in self._players:
             # draw player names
             name_img = player.get_text()
-            name_pos = player.get_text_pos()
-            self._display.blit(name_img, name_pos)
+            name_img_width = name_img.get_size()[0]
 
-            if self.phase > 0 and not self._rolling_in_progress:
-                if player is self.player_in_turn:
+            name_y_pos = player.get_text_pos()[1] - 1
+            name_x_pos = player.get_text_pos()[0] + (45 - name_img_width) / 2
+            
+            self._display.blit(name_img, (name_x_pos, name_y_pos))
+
+            if self._phase > 0 and not self._rolling_in_progress:
+                if player is self._player_in_turn:
                     self.draw_prospective_results(player)
                     
             # draw player results
@@ -251,15 +273,19 @@ class Yatzy:
     def draw_annotation(self):
         """Piirtää aputekstin noppien ja tuloslistan väliin
         """
-        annotation = f'{self.player_in_turn.get_name()}'
-        if self.phase == 0:
-            annotation += ', heitto 1. Klikkaa tällä alueella'
-        elif self.phase < 3:
-            annotation += f', heitto {self.phase+1} tai merkkaa tulos'
+        annotation = f'{self._player_in_turn.get_name()}'
+        if self._phase == 0:
+            annotation += ', heitto 1'
+            if not self._player_in_turn.played():
+                annotation +=  '. Klikkaa tällä alueella'
+        elif self._phase < 3:
+            annotation += f', heitto {self._phase+1} tai merkkaa tulos'
         else:
             annotation += ", merkkaa tulos"
         annotation_img = FONT.render(annotation, False, WHITE)
-        self._display.blit(annotation_img, (20, 90))
+        annotation_width = annotation_img.get_size()[0]
+        annotation_x_position = (377 - annotation_width) / 2
+        self._display.blit(annotation_img, (annotation_x_position, 90))
 
     def draw_die_border(self, die, color):
         """Piirtää annetun värisen kehyksen
@@ -299,3 +325,9 @@ class Yatzy:
                 pygame.transform.scale(pygame.image.load(f'src/images/{i}.png'), (65, 65)))
 
         self._scorecard_img = pygame.image.load('src/images/taulukko.png')  # 377 * 610
+
+    def _place_dice(self):
+        """Asettaa nopille oikeat paikat
+        """
+        for index, die in enumerate(self._dice):
+            die.set_position((5 + index*73, DICE_Y_POS))
