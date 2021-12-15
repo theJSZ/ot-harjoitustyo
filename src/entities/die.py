@@ -7,7 +7,7 @@ class Die:
         Args:
             face (int, optional): haluttu arvo. Default: None.
         """
-        self._frozen = False
+        self.frozen = False
         self._y = 0
         self._x = 0
         if face is None:
@@ -62,13 +62,13 @@ class Die:
     def throw(self):
         """Jos noppa ei jäädytetty, arpoo uuden arvon
         """
-        if not self._frozen:
+        if not self.frozen:
             self.face = randint(1, 6)
 
     def change_freeze_state(self):
         """Muuttaa nopan jäädytys-statuksen päinvastaiseksi
         """
-        self._frozen = not self._frozen
+        self.frozen = not self.frozen
 
     def get_freeze_state(self):
         """Palauttaa nopan jäädytys-statuksen
@@ -76,7 +76,7 @@ class Die:
         Returns:
             True / False
         """
-        return self._frozen
+        return self.frozen
 
     def __gt__(self, other):
         """Tarkistaa onko nopan arvo isompi kuin toisella nopalla,

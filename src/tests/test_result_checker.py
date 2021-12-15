@@ -114,5 +114,3 @@ class TestResultChecker(unittest.TestCase):
         self.assertEqual(self.result_checker.check_full_house(self.dice), 0)
         self.assertEqual(self.result_checker.check_chance(self.dice), 25)
         self.assertEqual(self.result_checker.check_yatzy(self.dice), 50)
-
-
