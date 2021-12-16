@@ -20,9 +20,9 @@ def invalid_player_name():
 
 def check_player_name():
     if len(player_name) > 3:
-        print("3 characters or less to fit on score card :(\n")
+        print("3 merkkiä tai vähemmän :(\n")
     if player_name.lower() in [player.name.lower() for player in PLAYER_LIST]:
-        print("Name already in use :(\n")
+        print("Nimi käytössä :(\n")
 
 
 if __name__ == "__main__":
@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
             player_name = "xxxx"
             while invalid_player_name():
-                player_name = input(f"Initials for player {i+1}: ")
+                player_name = input(f"Pelaaja {i+1}: ")
                 check_player_name()
 
             PLAYER_LIST.append(Player(player_name))

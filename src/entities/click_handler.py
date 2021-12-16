@@ -1,4 +1,5 @@
 import random
+import pygame
 from resources.clickable_result_names import CLICKABLE_RESULTS
 from resources.y_positions_of_result_boxes import Y_POSITIONS_OF_RESULT_BOXES
 from entities.result_checker import ResultChecker
@@ -76,4 +77,5 @@ class ClickHandler:
                         break
 
                 player.phase += 1
+                pygame.event.clear()
                 player.rolling_in_progress = False

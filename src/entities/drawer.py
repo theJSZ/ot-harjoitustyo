@@ -33,6 +33,21 @@ class Drawer:
             self.draw_player_data(player)
 
         pygame.display.flip()
+    
+    def draw_dice(self):
+        """Piirtää nopat ja tuloslistan
+        """
+        for die in self.game.dice:
+            if self.game.player_in_turn.phase == 3:
+                self.draw_die_border(die, PURPLE)
+            else:
+                if die.frozen:
+                    self.draw_die_border(die, GREEN)
+                else:
+                    self.draw_die_border(die, BLACK)
+            
+            die_image = self._d_images[die.face]
+            self.game.display.blit(die_image, die.get_position())
 
     def draw_die_border(self, die, color):
         """Piirtää annetun värisen kehyksen
@@ -68,7 +83,7 @@ class Drawer:
                     prospective_result_pos = (x_position, COORDINATES[clickable_result])
                     self.game.display.blit(prospective_result_img, prospective_result_pos)
 
-    def draw_annotation(self, annotation=None, game_in_progress=True):
+    def draw_annotation(self, annotation=None, game_in_progress=True, y_offset=0):
         """Piirtää infotekstin noppien ja tuloslistan väliin
         """
         if game_in_progress:
@@ -79,17 +94,19 @@ class Drawer:
             annotation = f'{self.game.player_in_turn.name}'
             if phase == 0:
                 annotation += ', heitto 1'
-                if not self.game.player_in_turn.played():
+                if not self.game.player_in_turn.played():  # it is player's first turn
                     annotation += '. Klikkaa tällä alueella'
             elif phase < 3:
-                annotation += f', heitto {phase+1} tai merkkaa tulos'
+                annotation += f', heitto {phase+1}'
+                if not self.game.player_in_turn.played():  # it is player's first turn
+                    annotation += ' tai merkkaa tulos'
             else:
                 annotation += ", merkkaa tulos"
 
         annotation_img = FONT.render(annotation, False, WHITE)
         annotation_width = annotation_img.get_size()[0]
-        annotation_x_position = (377 - annotation_width) / 2
-        self.game.display.blit(annotation_img, (annotation_x_position, 90))
+        annotation_x_position = (377 - annotation_width) / 2  # center or box
+        self.game.display.blit(annotation_img, (annotation_x_position, 90+y_offset))
 
     def draw_player_data(self, player, game_in_progress=True):
         """Piirtää pelaajien nimet, tarjolla olevat tulokset
@@ -120,21 +137,15 @@ class Drawer:
             result_pos = (player.text_pos[0] + centering_addition, COORDINATES[result_name])
             self.game.display.blit(result_img, result_pos)
 
-    def draw_dice(self):
-        """Piirtää nopat ja tuloslistan
-        """
-        for die in self.game.dice:
-            if self.game.player_in_turn.phase == 3:
-                self.draw_die_border(die, PURPLE)
-            else:
-                if die.frozen:
-                    self.draw_die_border(die, GREEN)
-                else:
-                    self.draw_die_border(die, BLACK)
-            self.game.display.blit(self._d_images[die.face], die.get_position())
-
+    
     def hide_annotation(self):
         pygame.draw.rect(self.game.display, BLACK, (0, 73, 377, 377))
+
+    def hide_dice(self):
+        """Maalaa noppien yli mustalla, vanhojen tulosten
+        katselussa tarvitaan
+        """
+        pygame.draw.rect(self.game.display, BLACK, (0, 0, 377, 377))
 
     def draw_scorecard(self):
         self.game.display.blit(self._scorecard_img, (0, 128))

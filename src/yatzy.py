@@ -77,6 +77,7 @@ class Yatzy:
                 self.freeze_all_dice()
 
             for event in pygame.event.get():
+
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
@@ -84,7 +85,7 @@ class Yatzy:
                     mouse_pos = pygame.mouse.get_pos()
                     self._click_handler.handle_clicked_item(mouse_pos)
 
-                self.drawer.update_screen()
+            self.drawer.update_screen()
 
     def unfreeze_all_dice(self):
         """Vapauttaa kaikki nopat

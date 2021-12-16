@@ -1,5 +1,4 @@
 from random import randint
-
 class Die:
     def __init__(self, face: int = None):
         """Alustaa nopan annettuun arvoon tai satunnaiseen arvoon jos ei annettu
@@ -42,22 +41,6 @@ class Die:
             True / False
         """
         return (self._x < mouse_pos[1] < self._x + 65) and (self._y < mouse_pos[0] < self._y + 65)
-
-    # def get_face(self):
-    #     """Palauttaa nopan arvon
-
-    #     Returns:
-    #         int: arvo
-    #     """
-    #     return self._face
-
-    # def set_face(self, number: int):
-    #     """Asettaa nopan haluttuun arvoon
-
-    #     Args:
-    #         number (int): haluttu arvo
-    #     """
-    #     self._face = number
 
     def throw(self):
         """Jos noppa ei jäädytetty, arpoo uuden arvon

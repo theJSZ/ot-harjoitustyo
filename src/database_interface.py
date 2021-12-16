@@ -1,6 +1,5 @@
 import sys
 import sqlite3
-from sqlite3.dbapi2 import Timestamp
 import pygame
 from datetime import datetime
 from entities.player import Player
@@ -126,7 +125,11 @@ class DatabaseReader:
                                               
         self.init_players()
 
+        self.drawer.hide_dice()
         self.drawer.hide_annotation()
+        self.drawer.draw_annotation('Historian havinaa!', False, -80)
+        self.drawer.draw_annotation('Selaa nuolinäppäimillä', False, -40)
+
         self.drawer.draw_annotation(f'Peli {game_id}: {timestamp}', False)
         self.drawer.draw_scorecard()
         for player in self.players:
