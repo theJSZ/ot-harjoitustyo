@@ -75,13 +75,16 @@ class Drawer:
                     checker_to_use = CHECKER_FUNCTIONS[index-6]
                     prospective_result = checker_to_use(self.game.checker, self.game.dice)
 
-                if prospective_result != 0:
-                    prospective_result_img = FONT.render(str(prospective_result), False, GRAY)
-                    image_width = prospective_result_img.get_size()[0]
-                    centering_addition = (RESULT_BOX_WIDTH - image_width) / 2
-                    x_position = centering_addition + player.text_pos[0]
-                    prospective_result_pos = (x_position, COORDINATES[clickable_result])
-                    self.game.display.blit(prospective_result_img, prospective_result_pos)
+                # if prospective_result != 0:
+                if prospective_result == 0:
+                    prospective_result = '-'
+
+                prospective_result_img = FONT.render(str(prospective_result), False, GRAY)
+                image_width = prospective_result_img.get_size()[0]
+                centering_addition = (RESULT_BOX_WIDTH - image_width) / 2
+                x_position = centering_addition + player.text_pos[0]
+                prospective_result_pos = (x_position, COORDINATES[clickable_result])
+                self.game.display.blit(prospective_result_img, prospective_result_pos)
 
     def draw_annotation(self, annotation=None, game_in_progress=True, y_offset=0):
         """Piirtää infotekstin noppien ja tuloslistan väliin

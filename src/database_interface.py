@@ -1,7 +1,7 @@
 import sys
 import sqlite3
-import pygame
 from datetime import datetime
+import pygame
 from entities.player import Player
 from entities.drawer import Drawer
 
@@ -14,22 +14,25 @@ CLOCK = pygame.time.Clock()
 
 class DatabaseWriter:
     def __init__(self):
-        self.db = sqlite3.connect("./data/yatzy.db")
-        self.db.isolation_level = None
+        self.database = sqlite3.connect("./data/yatzy.db")
+        self.database.isolation_level = None
         self.create_tables()
         self.date = datetime.now()
     def create_tables(self):
-        self.db.execute(
-            """CREATE TABLE IF NOT EXISTS tulokset(id INTEGER PRIMARY KEY, 
-            ykköset INTEGER, kakkoset INTEGER, kolmoset INTEGER, neloset INTEGER, 
-            viitoset INTEGER, kuutoset INTEGER, pari INTEGER, kaksi_paria INTEGER, 
-            kolme_samaa INTEGER, neljä_samaa INTEGER, pikku_suora INTEGER, 
+        self.database.execute(
+            """CREATE TABLE IF NOT EXISTS tulokset(id INTEGER PRIMARY KEY,
+            ykköset INTEGER, kakkoset INTEGER, kolmoset INTEGER, neloset INTEGER,
+            viitoset INTEGER, kuutoset INTEGER, pari INTEGER, kaksi_paria INTEGER,
+            kolme_samaa INTEGER, neljä_samaa INTEGER, pikku_suora INTEGER,
             iso_suora INTEGER, täyskäsi INTEGER, sattuma INTEGER, yatzy INTEGER, pelaaja TEXT)""")
 
-        self.db.execute(
-            """CREATE TABLE IF NOT EXISTS pelit(id INTEGER PRIMARY KEY, 
-            tulos1 INTEGER DEFAULT 0 REFERENCES tulokset, tulos2 INTEGER DEFAULT 0 REFERENCES tulokset, 
-            tulos3 INTEGER DEFAULT 0 REFERENCES tulokset, tulos4 INTEGER DEFAULT 0 REFERENCES tulokset, date DATE)""")
+        self.database.execute(
+            """CREATE TABLE IF NOT EXISTS pelit(id INTEGER PRIMARY KEY,
+            tulos1 INTEGER DEFAULT 0 REFERENCES tulokset,
+            tulos2 INTEGER DEFAULT 0 REFERENCES tulokset,
+            tulos3 INTEGER DEFAULT 0 REFERENCES tulokset,
+            tulos4 INTEGER DEFAULT 0 REFERENCES tulokset,
+            date DATE)""")
 
     def add_game(self, players: list):
         result_ids = [0, 0, 0, 0]
@@ -43,7 +46,7 @@ class DatabaseWriter:
             for result in results:
                 if result == 'x':
                     result = 0
-            self.db.execute(
+            self.database.execute(
                 """INSERT INTO tulokset(ykköset, kakkoset, kolmoset,
                 neloset, viitoset, kuutoset,
                 pari, kaksi_paria, kolme_samaa, neljä_samaa,
@@ -64,29 +67,32 @@ class DatabaseWriter:
                       results["Täyskäsi"],
                       results["Sattuma"],
                       results["Yatzy"],
-                      player.name]
-            )
-            result_id = self.db.execute("SELECT MAX(id) from tulokset").fetchone()[0]
+                      player.name])
+
+            result_id = self.database.execute("SELECT MAX(id) from tulokset").fetchone()[0]
             result_ids[index] = int(result_id)
 
-        self.db.execute("""INSERT INTO pelit(tulos1, tulos2, tulos3, tulos4, date)
-        VALUES(?, ?, ?, ?, ?)""", [result_ids[0], result_ids[1], result_ids[2], result_ids[3], timestamp]
-        )
+        self.database.execute("""INSERT INTO pelit(tulos1, tulos2, tulos3, tulos4, date)
+        VALUES(?, ?, ?, ?, ?)""", [result_ids[0],
+                                   result_ids[1],
+                                   result_ids[2],
+                                   result_ids[3],
+                                   timestamp])
 
 class DatabaseReader:
     def __init__(self):
         self.display = pygame.display.set_mode((377, 760))
-        self.db = sqlite3.connect("./data/yatzy.db")
-        self.db.isolation_level = None
+        self.database = sqlite3.connect("./data/yatzy.db")
+        self.database.isolation_level = None
         self.drawer = Drawer(self)
-        
-    def show_game(self, game_id: int=None):
+
+    def show_game(self, game_id: int = None):
         if not game_id:
-            game_id = self.db.execute("SELECT MAX(id) FROM pelit").fetchone()[0]
-        stored_games = self.db.execute("SELECT * FROM pelit").fetchall()
+            game_id = self.database.execute("SELECT MAX(id) FROM pelit").fetchone()[0]
+        stored_games = self.database.execute("SELECT * FROM pelit").fetchall()
         number_of_stored_games = len(stored_games)
 
-        game = self.db.execute("SELECT * FROM pelit WHERE ID = (?)", [game_id]).fetchone()
+        game = self.database.execute("SELECT * FROM pelit WHERE ID = (?)", [game_id]).fetchone()
         if not game:
             return
 
@@ -94,7 +100,7 @@ class DatabaseReader:
         result2_id = game[2]
         result3_id = game[3]
         result4_id = game[4]
-        timestamp  = game[5]
+        timestamp = game[5]
         results = []
         self.players = []
 
@@ -103,26 +109,26 @@ class DatabaseReader:
 
         for result in results:
             player = Player(result[-1])
-            player.results["Ykköset"]     = result[1]
-            player.results["Kakkoset"]    = result[2]
-            player.results["Kolmoset"]    = result[3]
-            player.results["Neloset"]     = result[4]
-            player.results["Viitoset"]    = result[5]
-            player.results["Kuutoset"]    = result[6]
+            player.results["Ykköset"] = result[1]
+            player.results["Kakkoset"] = result[2]
+            player.results["Kolmoset"] = result[3]
+            player.results["Neloset"] = result[4]
+            player.results["Viitoset"] = result[5]
+            player.results["Kuutoset"] = result[6]
             player.update_valisumma()
-            player.results["1 pari"]      = result[7]
-            player.results["2 paria"]     = result[8]
-            player.results["3 samaa"]     = result[9]
-            player.results["4 samaa"]     = result[10]
+            player.results["1 pari"] = result[7]
+            player.results["2 paria"] = result[8]
+            player.results["3 samaa"] = result[9]
+            player.results["4 samaa"] = result[10]
             player.results["Pieni suora"] = result[11]
             player.results["Suuri suora"] = result[12]
-            player.results["Täyskäsi"]    = result[13]
-            player.results["Sattuma"]     = result[14]
-            player.results["Yatzy"]       = result[15]
+            player.results["Täyskäsi"] = result[13]
+            player.results["Sattuma"] = result[14]
+            player.results["Yatzy"] = result[15]
             player.update_total()
 
             self.players.append(player)
-                                              
+
         self.init_players()
 
         self.drawer.hide_dice()
@@ -135,7 +141,7 @@ class DatabaseReader:
         for player in self.players:
             self.drawer.draw_player_data(player, False)
             pygame.display.flip()
-            
+
         running = True
         while running:
             CLOCK.tick(60)
@@ -169,9 +175,10 @@ class DatabaseReader:
 
     def fetch_result(self, result_id, results: list):
         if result_id == 0:
-            return None
+            return
 
-        results.append(self.db.execute("SELECT * FROM tulokset WHERE ID = (?)", [result_id]).fetchone())
+        results.append(self.database.execute("SELECT * FROM tulokset WHERE ID = (?)"
+                                             , [result_id]).fetchone())
 
 if __name__ == "__main__":
     d = DatabaseReader()

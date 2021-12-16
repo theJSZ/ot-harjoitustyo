@@ -11,4 +11,5 @@
 |14.12. |5     |Paljon toiminnallisuutta: hieno tuloslista, tulosten tarkistuksen bugi korjattu, refaktorointi käynnissä|
 |15.12. |6     |Refaktorointia, pylint, testien korjailua|
 |15.12. |4     |Tietokannan pystytys, pelasin yatzya|
-Yhteensä 32h 30min
+|16.12. |2     |Pientä viilausta, pylint-korjauksia, pelasin lisää|
+Yhteensä 34h 30min
