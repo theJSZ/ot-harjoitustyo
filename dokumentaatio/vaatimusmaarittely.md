@@ -24,9 +24,6 @@ kolmeen heittoa.
 
 [x] Tuloksen sijoittaminen pistetaulukkoon antaa oikeita tuloksia.
 
-#### TODO
-
-Tulosnäkymän pitäisi päivittyä pelin aikana
 
 ## Jatkokehitysideoita
 
