@@ -12,4 +12,5 @@
 |15.12. |6     |Refaktorointia, pylint, testien korjailua|
 |15.12. |4     |Tietokannan pystytys, pelasin yatzya|
 |16.12. |2     |Pientä viilausta, pylint-korjauksia, pelasin lisää|
-Yhteensä 34h 30min
+|17.12. |2     |Tulosnäkymään lisätty Grand Champion|
+Yhteensä 36h 30min

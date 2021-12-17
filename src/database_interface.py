@@ -28,11 +28,16 @@ class DatabaseWriter:
 
         self.database.execute(
             """CREATE TABLE IF NOT EXISTS pelit(id INTEGER PRIMARY KEY,
-            tulos1 INTEGER DEFAULT 0 REFERENCES tulokset,
-            tulos2 INTEGER DEFAULT 0 REFERENCES tulokset,
-            tulos3 INTEGER DEFAULT 0 REFERENCES tulokset,
-            tulos4 INTEGER DEFAULT 0 REFERENCES tulokset,
+            tulos1_id INTEGER DEFAULT 0 REFERENCES tulokset,
+            tulos2_id INTEGER DEFAULT 0 REFERENCES tulokset,
+            tulos3_id INTEGER DEFAULT 0 REFERENCES tulokset,
+            tulos4_id INTEGER DEFAULT 0 REFERENCES tulokset,
             date DATE)""")
+
+        self.database.execute(
+            """CREATE TABLE IF NOT EXISTS totals(id INTEGER PRIMARY KEY,
+            tulos_id INTEGER REFERENCES tulokset, tulos INTEGER)"""
+        )
 
     def add_game(self, players: list):
         result_ids = [0, 0, 0, 0]
@@ -43,9 +48,11 @@ class DatabaseWriter:
 
         for index, player in enumerate(players):
             results = player.results
-            for result in results:
-                if result == 'x':
-                    result = 0
+            total = results["Yhteensä"]
+            # for result_value in results.values():
+            #     if result_value == 'x':
+            #         result_value = 0
+            #     total += result_value
             self.database.execute(
                 """INSERT INTO tulokset(ykköset, kakkoset, kolmoset,
                 neloset, viitoset, kuutoset,
@@ -72,19 +79,28 @@ class DatabaseWriter:
             result_id = self.database.execute("SELECT MAX(id) from tulokset").fetchone()[0]
             result_ids[index] = int(result_id)
 
-        self.database.execute("""INSERT INTO pelit(tulos1, tulos2, tulos3, tulos4, date)
+            self.database.execute("""INSERT INTO totals (tulos_id, tulos)
+                                  VALUES (?, ?)""", [result_id, total])
+ 
+        self.database.execute("""INSERT INTO pelit(tulos1_id, tulos2_id, tulos3_id, tulos4_id, date)
         VALUES(?, ?, ?, ?, ?)""", [result_ids[0],
                                    result_ids[1],
                                    result_ids[2],
                                    result_ids[3],
                                    timestamp])
 
+        
 class DatabaseReader:
     def __init__(self):
         self.display = pygame.display.set_mode((377, 760))
         self.database = sqlite3.connect("./data/yatzy.db")
         self.database.isolation_level = None
         self.drawer = Drawer(self)
+
+    def find_grand_champion(self, database):
+        high_score, high_score_id = database.execute("SELECT MAX(tulos), tulos_id FROM totals").fetchone()
+        grand_champion = database.execute("SELECT pelaaja FROM tulokset WHERE id = (?)", [high_score_id]).fetchone()[0]
+        return (grand_champion, high_score)
 
     def show_game(self, game_id: int = None):
         if not game_id:
@@ -133,7 +149,9 @@ class DatabaseReader:
 
         self.drawer.hide_dice()
         self.drawer.hide_annotation()
-        self.drawer.draw_annotation('Historian havinaa!', False, -80)
+
+        grand_champion, high_score = self.find_grand_champion(self.database)
+        self.drawer.draw_annotation(f'Grand Champion: {grand_champion} - {high_score}', False, -80)
         self.drawer.draw_annotation('Selaa nuolinäppäimillä', False, -40)
 
         self.drawer.draw_annotation(f'Peli {game_id}: {timestamp}', False)
@@ -177,9 +195,36 @@ class DatabaseReader:
         if result_id == 0:
             return
 
-        results.append(self.database.execute("SELECT * FROM tulokset WHERE ID = (?)"
+        results.append(self.database.execute("SELECT * FROM tulokset WHERE id = (?)"
                                              , [result_id]).fetchone())
 
 if __name__ == "__main__":
-    d = DatabaseReader()
-    d.show_game(1)
+    player = Player("JSZ")
+    player.results = {"Ykköset":     3,
+                      "Kakkoset":    6,
+                      "Kolmoset":    9,
+                      "Neloset":     12,
+                      "Viitoset":    15,
+                      "Kuutoset":    18,
+                      "Välisumma":   0,
+                      "1 pari":      12,
+                      "2 paria":     16,
+                      "3 samaa":     15,
+                      "4 samaa":     8,
+                      "Pieni suora": 15,
+                      "Suuri suora": 'x',
+                      "Täyskäsi":    24,
+                      "Sattuma":     15,
+                      "Yatzy":       'x',
+                      "Yhteensä":    0}
+
+    player.update_valisumma()
+    player.update_total()
+
+    players = [player]
+
+    d = DatabaseWriter()
+    d.add_game(players)
+
+    dr = DatabaseReader()
+    dr.show_game()
