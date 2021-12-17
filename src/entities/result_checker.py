@@ -1,6 +1,13 @@
 class ResultChecker:
+    """Luokka tulosten tarkistamiselle
+    """
 
     def get_functions():
+        """Palauttaa tarkistajafunktiot listana
+
+        Returns:
+            [list]: lista käytettävissä olevista funktioista
+        """
         return [ResultChecker.check_pair,
                 ResultChecker.check_two_pair,
                 ResultChecker.check_three_kind,
@@ -12,6 +19,15 @@ class ResultChecker:
                 ResultChecker.check_yatzy]
 
     def check_upstairs(self, target: int, dice: list):
+        """Tarkistaa "yläkerran", ts. ruudut "Ykköset ... Kuutoset"
+
+        Args:
+            target (int): Tarkistettava ruutu 1..6
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: Nopista saatava tulos haluttuun ruutuun
+        """
         total = 0
 
         for die in dice:
@@ -20,6 +36,14 @@ class ResultChecker:
         return total
 
     def check_pair(self, dice: list):
+        """Tarkistaa parin
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: Suurin mahdollinen pari annetuista nopista
+        """
         faces = [0 for _ in range(7)]
 
         for die in dice:
@@ -30,6 +54,14 @@ class ResultChecker:
         return 0
 
     def check_two_pair(self, dice: list):
+        """Tarkistaa 2 paria
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: 2 parin summa jos 2 paria, muuten 0
+        """
         faces = [0 for _ in range(7)]
         total = 0
         for die in dice:
@@ -49,6 +81,14 @@ class ResultChecker:
         return total
 
     def check_three_kind(self, dice: list):
+        """Tarkistaa 3 samaa
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: Kolmen saman summa jos 3 samaa, 0 muuten
+        """
         faces = [0 for _ in range(7)]
         total = 0
 
@@ -60,6 +100,14 @@ class ResultChecker:
         return total
 
     def check_four_kind(self, dice: list):
+        """Tarkistaa 4 samaa
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: Neljän saman summa jos 4 samaa, muuten 0
+        """
         faces = [0 for _ in range(7)]
 
         for die in dice:
@@ -70,6 +118,14 @@ class ResultChecker:
         return 0
 
     def check_small_straight(self, dice: list):
+        """Tarkistaa pienen suoran
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: 15 jos pieni suora, 0 muuten
+        """
         faces = []
         for die in dice:
             faces.append(die.face)
@@ -79,6 +135,14 @@ class ResultChecker:
         return 0
 
     def check_large_straight(self, dice: list):
+        """Tarkistaa suuren suoran
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: 20 jos suuri suora, 0 muuten
+        """
         faces = []
         for die in dice:
             faces.append(die.face)
@@ -88,6 +152,14 @@ class ResultChecker:
         return 0
 
     def check_full_house(self, dice: list):
+        """Tarkistaa täyskäden
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: Nopista muodostuva täyskäsi, muuten 0
+        """
         faces_count = [0 for _ in range(7)]
         total = 0
         for die in dice:
@@ -101,12 +173,28 @@ class ResultChecker:
         return 0
 
     def check_chance(self, dice: list):
+        """Tarkistaa sattuman
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: Kaikkien noppien summa
+        """
         total = 0
         for die in dice:
             total += die.face
         return total
 
     def check_yatzy(self, dice: list):
+        """Tarkistaa yatzyn
+
+        Args:
+            dice (list): Käytössä olevat nopat
+
+        Returns:
+            [int]: 50 jos yatzy, 0 muuten
+        """
         if sorted(dice)[0] == sorted(dice)[4]:
             return 50
 

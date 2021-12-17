@@ -9,12 +9,15 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 PURPLE = (200, 10, 200)
 GRAY = (160, 160, 160)
+LIGHT_GRAY = (210, 210, 210)
 pygame.init()
 pygame.font.init()
 FONT = pygame.font.SysFont('Sans Serif', 30)
 CHECKER_FUNCTIONS = ResultChecker.get_functions()
 RESULT_BOX_WIDTH = 47
 class Drawer:
+    """Luokka joka vastaa kaikesta piirtämisestä
+    """
     def __init__(self, game):
         self.game = game
         self._d_images = [None]
@@ -78,8 +81,11 @@ class Drawer:
                 # if prospective_result != 0:
                 if prospective_result == 0:
                     prospective_result = '-'
+                    color = LIGHT_GRAY
+                else:
+                    color = GRAY
 
-                prospective_result_img = FONT.render(str(prospective_result), False, GRAY)
+                prospective_result_img = FONT.render(str(prospective_result), False, color)
                 image_width = prospective_result_img.get_size()[0]
                 centering_addition = (RESULT_BOX_WIDTH - image_width) / 2
                 x_position = centering_addition + player.text_pos[0]

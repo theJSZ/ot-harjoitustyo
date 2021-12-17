@@ -1,5 +1,7 @@
 from random import randint
 class Die:
+    """Luokka nopalle
+    """
     def __init__(self, face: int = None):
         """Alustaa nopan annettuun arvoon tai satunnaiseen arvoon jos ei annettu
 

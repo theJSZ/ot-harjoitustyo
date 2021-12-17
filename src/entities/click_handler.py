@@ -6,6 +6,8 @@ from entities.result_checker import ResultChecker
 CHECKER_FUNCTIONS = ResultChecker.get_functions()
 
 class ClickHandler:
+    """Luokka klikkausten käsittelylle
+    """
     def __init__(self, game):
         self.game = game
 

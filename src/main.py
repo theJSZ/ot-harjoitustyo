@@ -10,15 +10,27 @@ PI = 3.1415
 PLAYER_LIST = []
 
 def print_yatzy(offset):
+    """Tulostaa YATZY Ascii-laatikossa
+
+    Args:
+        offset (int): haluttu määrä tyhjää ennen laatikkoa
+    """
     print(offset*' ' + u'\u250F' + 5*u'\u2501' + u'\u2513')
     print(offset*' ' + u'\u2503' + "YATZY" + u'\u2503')
     print(offset*' ' + u'\u2517' + 5*u'\u2501' + u'\u251B', flush=True)
 
 def invalid_player_name():
+    """Tarkistaa onko annettu nimi epäkelpo
+
+    Returns:
+        [bool]: True jos epäkelpo, muuten False
+    """
     lowercase_names = [player.name.lower() for player in PLAYER_LIST]
     return len(player_name) > 3 or player_name.lower() in lowercase_names
 
 def check_player_name():
+    """Ilmoittaa mikä nimessä on vialla
+    """
     if len(player_name) > 3:
         print("3 merkkiä tai vähemmän :(\n")
     if player_name.lower() in [player.name.lower() for player in PLAYER_LIST]:

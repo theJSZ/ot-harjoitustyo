@@ -13,4 +13,5 @@
 |15.12. |4     |Tietokannan pystytys, pelasin yatzya|
 |16.12. |2     |Pientä viilausta, pylint-korjauksia, pelasin lisää|
 |17.12. |2     |Tulosnäkymään lisätty Grand Champion|
-Yhteensä 36h 30min
+|17.12. |0:30  |Docstringejä|
+Yhteensä 37h

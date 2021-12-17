@@ -1,4 +1,6 @@
 class Player:
+    """Luokka pelaajalle
+    """
     def __init__(self, name: str):
         """Alustaa pelaajalle nimen ja tyhjän tuloslistan
 
