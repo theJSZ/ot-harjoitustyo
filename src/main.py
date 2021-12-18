@@ -76,3 +76,4 @@ if __name__ == "__main__":
             sleep(0.10)
         os.system('clear')
         GAME = Yatzy(PLAYER_LIST)
+        GAME.run()

@@ -3,12 +3,22 @@ from entities.player import Player
 
 class TestPlayer(unittest.TestCase):
     def setUp(self):
-        self.player = Player("Jussi")
+        self.player = Player("JSZ")
 
     def test_constructor(self):
-        self.assertEqual(self.player.name, "Jussi")
+        """Testaa että pelaajalle annettu nimi on oikein
+        """
+        self.assertEqual(self.player.name, "JSZ")
+
+    def test_played(self):
+        self.assertEqual(self.player.played(), False)
+        self.player.mark_upstairs("Ykköset", 1)
+        self.assertEqual(self.player.played(), True)
 
     def test_mark_upstairs(self):
+        """Testaa että yläkertaan merkatut
+        tulokset menevät oikein
+        """
         self.player.mark_upstairs("Kakkoset", 0)
         self.assertEqual(self.player.results["Kakkoset"], 'x')
         self.assertEqual(self.player.results["Välisumma"], 0)
@@ -31,6 +41,8 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.results["Yhteensä"], 132)
 
     def test_mark_downstairs(self):
+        """Testaa että alakertaan merkatut tulokset menevät oikein
+        """
         self.player.mark_downstairs("2 paria", 0)
         self.assertEqual(self.player.results["2 paria"], 'x')
         self.assertEqual(self.player.results["Välisumma"], 0)

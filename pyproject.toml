@@ -8,6 +8,7 @@ authors = ["Jussi Rantala <jussi.v.rantala@helsinki.fi>"]
 python = "^3.8"
 pygame = "^2.1.0"
 invoke = "^1.6.0"
+mock = "^4.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

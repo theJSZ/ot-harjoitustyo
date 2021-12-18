@@ -38,10 +38,10 @@ class Yatzy:
         self.player_in_turn = None
         # self.phase = 0
 
-        self._run()
+        # self._run()
 
 
-    def _run(self):
+    def run(self):
         """Pelisilmukka
         """
 
