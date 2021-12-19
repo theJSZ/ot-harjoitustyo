@@ -38,20 +38,20 @@ class Yatzy:
 
 
     def run(self):
-        """Pelisilmukka
+        """Pelisilmukka, suorittaa peliä 15 kierrosta
+        jonka jälkeen tallentaa tulokset tietokantaan
+        ja näyttää ne tietokannasta
         """
 
         game_round = 0
         while game_round < 15:
             game_round += 1
 
-
             for player in self.players:
                 self.player_turn(player)
 
         self.db_writer.add_game(self.players)
         self.db_reader.show_game()
-
 
     def player_turn(self, player):
         """Käsittelee yhden pelaajan vuoron
@@ -73,10 +73,10 @@ class Yatzy:
                 self.freeze_all_dice()
 
             for event in pygame.event.get():
-
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     self._click_handler.handle_clicked_item(mouse_pos)
@@ -89,7 +89,6 @@ class Yatzy:
         for die in self.dice:
             if die.frozen:
                 die.change_freeze_state()
-
 
     def freeze_all_dice(self):
         """Jäädyttää kaikki nopat

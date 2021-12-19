@@ -1,4 +1,3 @@
-import sys
 import sqlite3
 from datetime import datetime
 import pygame
@@ -56,7 +55,7 @@ class DatabaseWriter:
         for index, player in enumerate(players):
             results = player.results
             total = results["Yhteensä"]
-           
+
             self.database.execute(
                 """INSERT INTO tulokset(ykköset, kakkoset, kolmoset,
                 neloset, viitoset, kuutoset,
@@ -85,7 +84,7 @@ class DatabaseWriter:
 
             self.database.execute("""INSERT INTO totals (tulos_id, tulos)
                                   VALUES (?, ?)""", [result_id, total])
- 
+
         self.database.execute("""INSERT INTO pelit(tulos1_id, tulos2_id, tulos3_id, tulos4_id, date)
         VALUES(?, ?, ?, ?, ?)""", [result_ids[0],
                                    result_ids[1],
@@ -93,7 +92,6 @@ class DatabaseWriter:
                                    result_ids[3],
                                    timestamp])
 
-        
 class DatabaseReader:
     """Luokka tietokannan lukemiseen
     """
@@ -188,9 +186,11 @@ class DatabaseReader:
                 if event.type == pygame.QUIT:
                     running = False
                     pygame.quit()
-                    sys.exit()
 
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                        pygame.quit()
                     if event.key == pygame.K_LEFT:
                         if game_id > 1:
                             self.show_game(game_id-1)
@@ -242,5 +242,5 @@ if __name__ == "__main__":
     # d = DatabaseWriter()
     # d.add_game(players)
 
-    dr = DatabaseReader()
-    dr.show_game()
+    READER = DatabaseReader()
+    READER.show_game()

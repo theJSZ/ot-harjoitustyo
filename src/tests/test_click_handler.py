@@ -30,14 +30,14 @@ class TestClickHandler(unittest.TestCase):
         mock_player.phase = 1
         mock_player.results = {"Ykköset": 0}
         self.click_handler.handle_clicked_item((10, 180))
-        mock_player.mark_upstairs.assert_called_with("Ykköset", 1)
+        mock_player.mark_result.assert_called_with("Ykköset", 1)
 
     def test_handle_clicked_upstairs_when_not_allowed(self):
         mock_player = self.mock_game.player_in_turn
         mock_player.phase = 0
         mock_player.results = {"Ykköset": 0}
         self.click_handler.handle_clicked_item((10, 180))
-        mock_player.mark_upstairs.assert_not_called()
+        mock_player.mark_result.assert_not_called()
 
     def test_handle_clicked_downstairs_when_not_marked_that_result(self):
         mock_player = self.mock_game.player_in_turn
@@ -45,7 +45,7 @@ class TestClickHandler(unittest.TestCase):
         mock_player.phase = 1
         mock_player.results = {"1 pari": 0}
         self.click_handler.handle_clicked_item((10, 410))
-        mock_player.mark_downstairs.assert_called_with("1 pari", 4)
+        mock_player.mark_result.assert_called_with("1 pari", 4)
 
     def test_handle_clicked_downstairs_when_already_marked_that_result(self):
         mock_player = self.mock_game.player_in_turn
@@ -53,7 +53,7 @@ class TestClickHandler(unittest.TestCase):
         mock_player.phase = 1
         mock_player.results = {"1 pari": 2}
         self.click_handler.handle_clicked_item((10, 410))
-        mock_player.mark_downstairs.assert_not_called()
+        mock_player.mark_result.assert_not_called()
 
     def test_handle_clicked_throw_area(self):
         self.mock_game.player_in_turn.phase = 1

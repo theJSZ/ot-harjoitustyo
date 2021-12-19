@@ -109,30 +109,37 @@ class Drawer:
             player (Player): vuorossa oleva pelaaja
         """
         for index, clickable_result in enumerate(CLICKABLE_RESULTS):
-            if player.results[clickable_result] == 0:  # ei jo merkattu
-                if index < 6:  # yläkerta
-                    prospective_result = self.game.checker.check_upstairs(index+1, self.game.dice)
+            if not player.results[clickable_result] == 0:
+                continue  # oli jo merkattu
 
-                else:  # alakerta
-                    checker_to_use = CHECKER_FUNCTIONS[index-6]
-                    prospective_result = checker_to_use(self.game.checker, self.game.dice)
+            if index < 6:  # yläkerta
+                prospective_result = self.game.checker.check_upstairs(index+1, self.game.dice)
 
-                if prospective_result == 0:
-                    prospective_result = '-'
-                    color = LIGHT_GRAY
-                else:
-                    color = GRAY
+            else:  # alakerta
+                checker_to_use = CHECKER_FUNCTIONS[index-6]
+                prospective_result = checker_to_use(self.game.checker, self.game.dice)
 
-                prospective_result_img = FONT.render(str(prospective_result), False, color)
-                image_width = prospective_result_img.get_size()[0]
-                centering_addition = (RESULT_BOX_WIDTH - image_width) / 2
-                x_position = centering_addition + player.text_pos[0]
-                prospective_result_pos = (x_position, COORDINATES[clickable_result])
-                self.game.display.blit(prospective_result_img, prospective_result_pos)
+            if prospective_result == 0:
+                prospective_result = '-'
+                color = LIGHT_GRAY
+            else:
+                color = GRAY
+
+            prospective_result_img = FONT.render(str(prospective_result), False, color)
+            image_width = prospective_result_img.get_size()[0]
+            centering_addition = (RESULT_BOX_WIDTH - image_width) / 2
+            x_position = centering_addition + player.text_pos[0]
+            prospective_result_pos = (x_position, COORDINATES[clickable_result])
+            self.game.display.blit(prospective_result_img, prospective_result_pos)
 
     def draw_player_data(self, player, game_in_progress=True):
-        """Piirtää pelaajien nimet, tarjolla olevat tulokset
-        ja jo kirjatut tulokset (kutsuen draw_prospective_results)
+        """Piirtää pelaajien nimet, merkatut tulokset ja
+        tarvittaessa tarjolla olevat tulokset (kutsuen toista metodia)
+
+        Args:
+            player (Player): tarkistettava pelaaja
+            game_in_progress (bool, optional): kertoo onko kyseessä
+            peli vai vanhojen tulosten katselu
         """
         # draw player name
         name_img = player.text
@@ -143,10 +150,8 @@ class Drawer:
 
         self.game.display.blit(name_img, (name_x_pos, name_y_pos))
 
-        if game_in_progress:
-            if self.game.player_in_turn.phase > 0 and not player.rolling_in_progress:
-                if player is self.game.player_in_turn:
-                    self.draw_prospective_results(player)
+        if self.prospective_results_required(player, game_in_progress):
+            self.draw_prospective_results(player)
 
         # draw player results
         for result_name, result_value in player.results.items():
@@ -158,12 +163,40 @@ class Drawer:
             result_pos = (player.text_pos[0] + centering_addition, COORDINATES[result_name])
             self.game.display.blit(result_img, result_pos)
 
+    def prospective_results_required(self, player, game_in_progress):
+        """Tarkistaa halutaanko nähdä noppien
+        mahdollistamia tuloksia
+
+        Args:
+            player (Player): tarkistettava pelaaja
+            game_in_progress (bool): kertoo pelataanko peliä vai
+            katsellaanko vanhoja tuloksia
+
+        Returns:
+            True / False
+        """
+        if not game_in_progress:
+            # not required if looking at past games results
+            return False
+
+        if self.game.player_in_turn.phase == 0:
+            return False
+
+        if player.rolling_in_progress:
+            return False
+
+        if not player is self.game.player_in_turn:
+            # draw for current player only
+            return False
+
+        return True
+
     def hide_dice(self):
         """Maalaa noppien yli mustalla, vanhojen tulosten
         katselussa tarvitaan
         """
         pygame.draw.rect(self.game.display, BLACK, (0, 0, 377, 377))
-  
+
     def _load_dice_images(self):
         """Lataa tarvittavat kuvat
         """

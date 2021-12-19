@@ -81,7 +81,7 @@ class ResultChecker:
         return total
 
     def check_three_kind(self, dice: list):
-        """Tarkistaa 3 samaa
+        """Tarkistaa 3 samaa kutsuen check_n_kind
 
         Args:
             dice (list): Käytössä olevat nopat
@@ -89,18 +89,11 @@ class ResultChecker:
         Returns:
             [int]: Kolmen saman summa jos 3 samaa, 0 muuten
         """
-        faces = [0 for _ in range(7)]
-        total = 0
 
-        for die in dice:
-            faces[die.face] += 1
-            if faces[die.face] == 3:
-                total = 3*die.face
-
-        return total
+        return self.check_n_kind(dice, 3)
 
     def check_four_kind(self, dice: list):
-        """Tarkistaa 4 samaa
+        """Tarkistaa 4 samaa kutsuen check_n_kind
 
         Args:
             dice (list): Käytössä olevat nopat
@@ -108,12 +101,25 @@ class ResultChecker:
         Returns:
             [int]: Neljän saman summa jos 4 samaa, muuten 0
         """
+
+        return self.check_n_kind(dice, 4)
+
+    def check_n_kind(self, dice: list, n_to_find: int):
+        """Tarkistaa n samaa
+
+        Args:
+            dice (list): Käytössä olevat nopat
+            n (int): Tarkistettava samojen määrä
+
+        Returns:
+            int: saatu tulos
+        """
         faces = [0 for _ in range(7)]
 
         for die in dice:
             faces[die.face] += 1
-            if faces[die.face] == 4:
-                return 4*die.face
+            if faces[die.face] == n_to_find:
+                return n_to_find*die.face
 
         return 0
 

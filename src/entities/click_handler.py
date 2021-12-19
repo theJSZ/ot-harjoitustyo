@@ -16,10 +16,10 @@ class ClickHandler:
         """
         if mouse_pos[1] in range(5, 70):
             self.handle_clicked_die(mouse_pos)
-    
+
         if self.legal_throw(mouse_pos):
             self.handle_clicked_throw_area()
-    
+
         if self.game.player_in_turn.phase == 0:
             return
 
@@ -28,6 +28,17 @@ class ClickHandler:
                 self.handle_clicked_result(index)
 
     def legal_result(self, mouse_pos, index, y_pos):
+        """Tarkistaa onko klikattu toimenpiteisiin
+        johtavaa tulosruutua
+
+        Args:
+            mouse_pos (tuple): hiiren sijainti
+            index (int): ruudun indeksi tuloksissa
+            y_pos (int): ruudun y-sijainti
+
+        Returns:
+            True / False
+        """
         if not mouse_pos[1] in range(y_pos, y_pos+30):
             return False
         if not self.game.player_in_turn.results[CLICKABLE_RESULTS[index]] == 0:
@@ -102,6 +113,6 @@ class ClickHandler:
             result = self.game.checker.check_upstairs(index+1, self.game.dice)
         else:
             result = CHECKER_FUNCTIONS[index-6](self.game.checker, self.game.dice)
-            
+
         self.game.player_in_turn.mark_result(CLICKABLE_RESULTS[index], result)
         self.game.end_player_turn()

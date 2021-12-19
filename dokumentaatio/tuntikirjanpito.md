@@ -16,5 +16,6 @@
 |17.12. |0:30  |Docstringejä|
 |18.12. |3     |Testikattavuutta yritin parantaa, osa luokista hankalia|
 |19.12. |1:30  |Refaktorointia|
+|19.12. |1:30  |Refaktorointia, docstringejä, pylint|
 
-Yhteensä 41h30min
+Yhteensä 43h

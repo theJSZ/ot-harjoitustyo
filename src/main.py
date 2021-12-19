@@ -57,7 +57,7 @@ if __name__ == "__main__":
         DB_READER = DatabaseReader()
         DB_READER.show_game(1)
 
-    else:    
+    else:
         for i in range(N_PLAYERS):
             os.system('clear')
             print_yatzy(0)

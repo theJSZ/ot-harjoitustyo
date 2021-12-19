@@ -1,3 +1,6 @@
+from resources.clickable_result_names import CLICKABLE_RESULTS
+
+
 class Player:
     """Luokka pelaajalle
     """
@@ -13,23 +16,19 @@ class Player:
         self.phase = 0
         self.text = None  # rendered representation of name
         self.text_pos = None
-        self.results = {"Ykköset":     0,
-                        "Kakkoset":    0,
-                        "Kolmoset":    0,
-                        "Neloset":     0,
-                        "Viitoset":    0,
-                        "Kuutoset":    0,
-                        "Välisumma":   0,
-                        "1 pari":      0,
-                        "2 paria":     0,
-                        "3 samaa":     0,
-                        "4 samaa":     0,
-                        "Pieni suora": 0,
-                        "Suuri suora": 0,
-                        "Täyskäsi":    0,
-                        "Sattuma":     0,
-                        "Yatzy":       0,
-                        "Yhteensä":    0}
+        self.results = self.init_results()
+
+    def init_results(self):
+        """Alustaa pelaajan tuloslistan
+
+        Returns:
+            dict: Tulokset avain-arvo-pareina
+        """
+        results = {}
+        for result_name in CLICKABLE_RESULTS:
+            results[result_name] = 0
+
+        return results
 
     def played(self):
         """Palauttaa tiedon onko pelaaja jo pelannut
@@ -55,7 +54,8 @@ class Player:
         (summa Ykköset, Kakkoset, ..., Kuutoset)
         """
         self.results["Välisumma"] = 0
-        target_strings = ["Ykköset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset"]
+        target_strings = CLICKABLE_RESULTS[0:6]
+
         for string in target_strings:
             if self.results[string] != 'x':
                 self.results["Välisumma"] += self.results[string]
@@ -78,22 +78,12 @@ class Player:
         self.update_total()
 
     def update_total(self):
-        """Päivittää yhteispisteet, laskee yhteen kaiken muun paitsi
-        "Välisumma" ja "Yhteensä"
+        """Päivittää yhteispisteet
         """
-        items_to_sum = ["Välisumma",
-                        "1 pari",
-                        "2 paria",
-                        "3 samaa",
-                        "4 samaa",
-                        "Pieni suora",
-                        "Suuri suora",
-                        "Täyskäsi",
-                        "Sattuma",
-                        "Yatzy"]
 
         total = 0
-        for item in items_to_sum:
+
+        for item in CLICKABLE_RESULTS[6:] + ["Välisumma"]:
             if self.results[item] != 'x':
                 total += self.results[item]
 
