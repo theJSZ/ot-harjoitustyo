@@ -1,4 +1,5 @@
 import sqlite3
+import sys
 from datetime import datetime
 import pygame
 from entities.player import Player
@@ -186,11 +187,13 @@ class DatabaseReader:
                 if event.type == pygame.QUIT:
                     running = False
                     pygame.quit()
+                    sys.exit()
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
                         pygame.quit()
+                        sys.exit()
                     if event.key == pygame.K_LEFT:
                         if game_id > 1:
                             self.show_game(game_id-1)
