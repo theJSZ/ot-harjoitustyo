@@ -166,7 +166,7 @@ class DatabaseReader:
 
             self.players.append(player)
 
-        self.init_players()
+        self.drawer.init_players(self.players)
 
         self.drawer.hide_dice()
         self.drawer.hide_annotation()
@@ -197,20 +197,6 @@ class DatabaseReader:
                     if event.key == pygame.K_RIGHT:
                         if game_id < number_of_stored_games:
                             self.show_game(game_id+1)
-
-    def init_players(self):
-        """Luo kaikille pelaajille name-parametrista kuvan
-        jotta pygame voi piirtää sen
-        """
-        for index, player in enumerate(self.players):
-            name = player.name
-            name_img = FONT.render(name, False, BLACK)
-            if name_img.get_size()[0] > 44:
-                name_img = pygame.transform.scale(name_img, (44, 20))
-            player.text = name_img
-            name_x_position = 180 + index*47
-            player.set_text_pos((name_x_position, 145))
-
 
     def fetch_result(self, result_id, results: list):
         """Hakee yhden yksittäisen tuloksen

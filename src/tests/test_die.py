@@ -65,6 +65,3 @@ class TestDie(unittest.TestCase):
         self.assertEqual(self.die.in_area((50, 50)), True)
         self.assertEqual(self.die.in_area((100, 50)), False)
         self.assertEqual(self.die.in_area((50, 100)), False)
-
-
-

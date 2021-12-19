@@ -14,4 +14,6 @@
 |16.12. |2     |Pientä viilausta, pylint-korjauksia, pelasin lisää|
 |17.12. |2     |Tulosnäkymään lisätty Grand Champion|
 |17.12. |0:30  |Docstringejä|
-Yhteensä 37h
+|18.12. |3     |Testikattavuutta yritin parantaa, osa luokista hankalia|
+
+Yhteensä 40h

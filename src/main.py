@@ -54,8 +54,8 @@ if __name__ == "__main__":
         break
 
     if N_PLAYERS == 0:
-        db_reader = DatabaseReader()
-        db_reader.show_game(1)
+        DB_READER = DatabaseReader()
+        DB_READER.show_game(1)
 
     else:    
         for i in range(N_PLAYERS):

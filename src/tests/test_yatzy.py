@@ -1,7 +1,6 @@
 import unittest
 from yatzy import Yatzy
 from entities.player import Player
-from entities.die import Die
 
 class TestYatzy(unittest.TestCase):
     def setUp(self):
@@ -38,4 +37,3 @@ class TestYatzy(unittest.TestCase):
         self.game.player_in_turn = self.game.players[0]
         self.game.end_player_turn()
         self.assertEqual(self.game.player_in_turn.marked, True)
-       

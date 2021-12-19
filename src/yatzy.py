@@ -1,5 +1,4 @@
 import sys
-from time import sleep
 import pygame
 from database_interface import DatabaseWriter
 from database_interface import DatabaseReader
@@ -25,10 +24,11 @@ class Yatzy:
         self._place_dice()
 
         self.players = players
-        self._init_players()
 
         self.checker = ResultChecker()
         self.drawer = Drawer(self)
+        self.drawer.init_players(self.players)
+
         self._click_handler = ClickHandler(self)
         self.clock = pygame.time.Clock()
 
@@ -36,10 +36,6 @@ class Yatzy:
         self.db_reader = DatabaseReader()
 
         self.player_in_turn = None
-        # self.phase = 0
-
-        # self._run()
-
 
     def run(self):
         """Pelisilmukka
@@ -136,19 +132,6 @@ class Yatzy:
         """
         self.player_in_turn.marked = True
         self.player_in_turn.phase = 3
-
-    def _init_players(self):
-        """Luo kaikille pelaajille name-parametrista kuvan
-        jotta pygame voi piirtää sen
-        """
-        for index, player in enumerate(self.players):
-            name = player.name
-            name_img = FONT.render(name, False, BLACK)
-            if name_img.get_size()[0] > 44:
-                name_img = pygame.transform.scale(name_img, (44, 20))
-            player.text = name_img
-            name_x_position = 180 + index*47
-            player.set_text_pos((name_x_position, 145))
 
     def _place_dice(self):
         """Asettaa nopille oikeat paikat

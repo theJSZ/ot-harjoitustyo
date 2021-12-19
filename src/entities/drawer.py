@@ -36,7 +36,7 @@ class Drawer:
             self.draw_player_data(player)
 
         pygame.display.flip()
-    
+
     def draw_dice(self):
         """Piirtää nopat ja tuloslistan
         """
@@ -48,7 +48,7 @@ class Drawer:
                     self.draw_die_border(die, GREEN)
                 else:
                     self.draw_die_border(die, BLACK)
-            
+
             die_image = self._d_images[die.face]
             self.game.display.blit(die_image, die.get_position())
 
@@ -146,7 +146,6 @@ class Drawer:
             result_pos = (player.text_pos[0] + centering_addition, COORDINATES[result_name])
             self.game.display.blit(result_img, result_pos)
 
-    
     def hide_annotation(self):
         pygame.draw.rect(self.game.display, BLACK, (0, 73, 377, 377))
 
@@ -165,3 +164,16 @@ class Drawer:
         for i in range(1, 7):
             self._d_images.append(
                 pygame.transform.scale(pygame.image.load(f'src/images/{i}.png'), (65, 65)))
+
+    def init_players(self, players: list):
+        """Luo kaikille pelaajille name-parametrista kuvan
+        jotta pygame voi piirtää sen
+        """
+        for index, player in enumerate(players):
+            name = player.name
+            name_img = FONT.render(name, False, BLACK)
+            if name_img.get_size()[0] > 44:
+                name_img = pygame.transform.scale(name_img, (44, 20))
+            player.text = name_img
+            name_x_position = 180 + index*47
+            player.set_text_pos((name_x_position, 145))
