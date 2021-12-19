@@ -29,13 +29,13 @@ class Yatzy:
         self.drawer = Drawer(self)
         self.drawer.init_players(self.players)
 
+        self.player_in_turn = None
         self._click_handler = ClickHandler(self)
         self.clock = pygame.time.Clock()
 
         self.db_writer = DatabaseWriter()
         self.db_reader = DatabaseReader()
 
-        self.player_in_turn = None
 
     def run(self):
         """Pelisilmukka

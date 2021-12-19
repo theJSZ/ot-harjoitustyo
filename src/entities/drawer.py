@@ -63,6 +63,44 @@ class Drawer:
         die_pos = die.get_position()
         pygame.draw.rect(self.game.display, color, (die_pos[0]-5, die_pos[1]-5, 75, 75))
 
+    def hide_annotation(self):
+        """Maalaa edellisen tekstin yli mustalla
+        """
+        pygame.draw.rect(self.game.display, BLACK, (0, 73, 377, 377))
+
+    def draw_annotation(self, annotation=None, game_in_progress=True, y_offset=0):
+        """Piirtää infotekstin noppien ja tuloslistan väliin
+        """
+        if game_in_progress:
+            if self.game.player_in_turn.rolling_in_progress:
+                return
+
+            phase = self.game.player_in_turn.phase
+            annotation = f'{self.game.player_in_turn.name}'
+
+            if phase == 0:
+                annotation += ', heitto 1'
+                if not self.game.player_in_turn.played():  # it is player's first turn
+                    annotation += '. Klikkaa tällä alueella'
+
+            elif phase < 3:
+                annotation += f', heitto {phase+1}'
+                if not self.game.player_in_turn.played():  # it is player's first turn
+                    annotation += ' tai merkkaa tulos'
+
+            else:
+                annotation += ", merkkaa tulos"
+
+        annotation_img = FONT.render(annotation, False, WHITE)
+        annotation_width = annotation_img.get_size()[0]
+        annotation_x_position = (377 - annotation_width) / 2  # make center of box
+        self.game.display.blit(annotation_img, (annotation_x_position, 90+y_offset))
+
+    def draw_scorecard(self):
+        """Piirtää tuloslapun pohjan
+        """
+        self.game.display.blit(self._scorecard_img, (0, 128))
+
     def draw_prospective_results(self, player):
         """Piirtää harmaat tulokset kaikkiin ruutuihin
         joissa pelaaja voi saada pisteitä
@@ -74,11 +112,11 @@ class Drawer:
             if player.results[clickable_result] == 0:  # ei jo merkattu
                 if index < 6:  # yläkerta
                     prospective_result = self.game.checker.check_upstairs(index+1, self.game.dice)
+
                 else:  # alakerta
                     checker_to_use = CHECKER_FUNCTIONS[index-6]
                     prospective_result = checker_to_use(self.game.checker, self.game.dice)
 
-                # if prospective_result != 0:
                 if prospective_result == 0:
                     prospective_result = '-'
                     color = LIGHT_GRAY
@@ -92,37 +130,11 @@ class Drawer:
                 prospective_result_pos = (x_position, COORDINATES[clickable_result])
                 self.game.display.blit(prospective_result_img, prospective_result_pos)
 
-    def draw_annotation(self, annotation=None, game_in_progress=True, y_offset=0):
-        """Piirtää infotekstin noppien ja tuloslistan väliin
-        """
-        if game_in_progress:
-            if self.game.player_in_turn.rolling_in_progress:
-                return
-
-            phase = self.game.player_in_turn.phase
-            annotation = f'{self.game.player_in_turn.name}'
-            if phase == 0:
-                annotation += ', heitto 1'
-                if not self.game.player_in_turn.played():  # it is player's first turn
-                    annotation += '. Klikkaa tällä alueella'
-            elif phase < 3:
-                annotation += f', heitto {phase+1}'
-                if not self.game.player_in_turn.played():  # it is player's first turn
-                    annotation += ' tai merkkaa tulos'
-            else:
-                annotation += ", merkkaa tulos"
-
-        annotation_img = FONT.render(annotation, False, WHITE)
-        annotation_width = annotation_img.get_size()[0]
-        annotation_x_position = (377 - annotation_width) / 2  # center or box
-        self.game.display.blit(annotation_img, (annotation_x_position, 90+y_offset))
-
     def draw_player_data(self, player, game_in_progress=True):
         """Piirtää pelaajien nimet, tarjolla olevat tulokset
         ja jo kirjatut tulokset (kutsuen draw_prospective_results)
         """
-        # for player in self.game.players:
-        # draw player names
+        # draw player name
         name_img = player.text
         name_img_width = name_img.get_size()[0]
 
@@ -146,18 +158,12 @@ class Drawer:
             result_pos = (player.text_pos[0] + centering_addition, COORDINATES[result_name])
             self.game.display.blit(result_img, result_pos)
 
-    def hide_annotation(self):
-        pygame.draw.rect(self.game.display, BLACK, (0, 73, 377, 377))
-
     def hide_dice(self):
         """Maalaa noppien yli mustalla, vanhojen tulosten
         katselussa tarvitaan
         """
         pygame.draw.rect(self.game.display, BLACK, (0, 0, 377, 377))
-
-    def draw_scorecard(self):
-        self.game.display.blit(self._scorecard_img, (0, 128))
-
+  
     def _load_dice_images(self):
         """Lataa tarvittavat kuvat
         """
@@ -172,8 +178,10 @@ class Drawer:
         for index, player in enumerate(players):
             name = player.name
             name_img = FONT.render(name, False, BLACK)
+
             if name_img.get_size()[0] > 44:
                 name_img = pygame.transform.scale(name_img, (44, 20))
+
             player.text = name_img
             name_x_position = 180 + index*47
             player.set_text_pos((name_x_position, 145))

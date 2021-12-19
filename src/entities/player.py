@@ -62,8 +62,8 @@ class Player:
         if self.results["Välisumma"] >= 63:
             self.results["Välisumma"] += 50
 
-    def mark_upstairs(self, result_name: int, result_value: int):
-        """Päivittää tuloksen "yläkertaan" eli välille [Ykköset ... Kuutoset]
+    def mark_result(self, result_name: int, result_value: int):
+        """Päivittää tuloksen annettuun ruutuun.
         Kutsuu update_valisumma() ja update_total()
 
         Args:
@@ -73,23 +73,8 @@ class Player:
         if result_value == 0:
             result_value = 'x'
 
-        # self.results[target_strings[result_name]] = result_value
         self.results[result_name] = result_value
         self.update_valisumma()
-        self.update_total()
-
-    def mark_downstairs(self, result_name: str, result: int):
-        """Päivittää tuloksen "alakertaan" eli välille [Pari ... Yatzy]
-        Kutsuu update_total()
-
-        Args:
-            result_name (str): Halutun tuloksen nimi
-            result (int): Halutun tuloksen arvo
-        """
-        if result == 0:
-            result = 'x'
-
-        self.results[result_name] = result
         self.update_total()
 
     def update_total(self):

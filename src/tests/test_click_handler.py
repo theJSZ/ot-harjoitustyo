@@ -18,25 +18,25 @@ class TestClickHandler(unittest.TestCase):
 
     def test_handle_clicked_die(self):
         self.mock_game.player_in_turn.phase = 1
-        self.click_handler.handle_clicked_die((10, 10))
+        self.click_handler.handle_clicked_item((10, 10))
         self.assertEqual(self.mock_game.dice[0].frozen, True)
-        self.click_handler.handle_clicked_die((10, 10))
+        self.click_handler.handle_clicked_item((10, 10))
         self.assertEqual(self.mock_game.dice[0].frozen, False)
-        self.click_handler.handle_clicked_die((100, 100))
+        self.click_handler.handle_clicked_item((100, 100))
         self.assertEqual(self.mock_game.dice[0].frozen, False)
 
     def test_handle_clicked_upstairs_when_allowed(self):
         mock_player = self.mock_game.player_in_turn
         mock_player.phase = 1
         mock_player.results = {"Ykköset": 0}
-        self.click_handler.handle_clicked_results((10, 180))
+        self.click_handler.handle_clicked_item((10, 180))
         mock_player.mark_upstairs.assert_called_with("Ykköset", 1)
 
     def test_handle_clicked_upstairs_when_not_allowed(self):
         mock_player = self.mock_game.player_in_turn
         mock_player.phase = 0
         mock_player.results = {"Ykköset": 0}
-        self.click_handler.handle_clicked_results((10, 180))
+        self.click_handler.handle_clicked_item((10, 180))
         mock_player.mark_upstairs.assert_not_called()
 
     def test_handle_clicked_downstairs_when_not_marked_that_result(self):
@@ -44,7 +44,7 @@ class TestClickHandler(unittest.TestCase):
         self.mock_game.dice = [Die(2), Die(2)]
         mock_player.phase = 1
         mock_player.results = {"1 pari": 0}
-        self.click_handler.handle_clicked_results((10, 410))
+        self.click_handler.handle_clicked_item((10, 410))
         mock_player.mark_downstairs.assert_called_with("1 pari", 4)
 
     def test_handle_clicked_downstairs_when_already_marked_that_result(self):
@@ -52,11 +52,11 @@ class TestClickHandler(unittest.TestCase):
         self.mock_game.dice = [Die(2), Die(2)]
         mock_player.phase = 1
         mock_player.results = {"1 pari": 2}
-        self.click_handler.handle_clicked_results((10, 410))
+        self.click_handler.handle_clicked_item((10, 410))
         mock_player.mark_downstairs.assert_not_called()
 
     def test_handle_clicked_throw_area(self):
         self.mock_game.player_in_turn.phase = 1
         self.mock_game.all_dice_frozen.return_value = False
-        self.click_handler.handle_clicked_throw_area((80, 80))
+        self.click_handler.handle_clicked_item((80, 80))
         self.mock_game.throw_dice.assert_called()
