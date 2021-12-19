@@ -15,5 +15,6 @@
 |17.12. |2     |Tulosnäkymään lisätty Grand Champion|
 |17.12. |0:30  |Docstringejä|
 |18.12. |3     |Testikattavuutta yritin parantaa, osa luokista hankalia|
+|19.12. |1:30  |Refaktorointia|
 
-Yhteensä 40h
+Yhteensä 41h30min
