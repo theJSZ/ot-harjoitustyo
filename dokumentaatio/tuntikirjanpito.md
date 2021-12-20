@@ -17,5 +17,5 @@
 |18.12. |3     |Testikattavuutta yritin parantaa, osa luokista hankalia|
 |19.12. |1:30  |Refaktorointia|
 |19.12. |1:30  |Refaktorointia, docstringejä, pylint|
-
-Yhteensä 43h
+|20.12. |1     |Säädin värejä, lisäsin raamit merkkaamaan vuorossa olevaa pelaajaa|
+Yhteensä 44h
