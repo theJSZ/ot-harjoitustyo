@@ -7,7 +7,7 @@ Sovellus on Yatzy-peli yhdestä neljään pelaajalle.
 - [Lopullinen vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 - [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
 - [Käyttöohje](./dokumentaatio/kayttoohje.md)
-- [Alustava arkkitehtuuri](./dokumentaatio/arkkitehtuuri.md)
+- [Ohjelman arkkitehtuuri](./dokumentaatio/arkkitehtuuri.md)
 
 ## Asennus ja käynnistys
 1. Asenna riippuvuudet projektin juurihakemistossa:  
