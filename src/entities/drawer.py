@@ -4,10 +4,10 @@ from resources.clickable_result_names import CLICKABLE_RESULTS
 from entities.result_checker import ResultChecker
 
 
-GREEN = (10, 200, 10)
+GREEN = (100, 200, 100)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-PURPLE = (200, 10, 200)
+BLUE = (100, 100, 200)
 GRAY = (160, 160, 160)
 LIGHT_GRAY = (210, 210, 210)
 pygame.init()
@@ -31,6 +31,7 @@ class Drawer:
         self.hide_annotation()
         self.draw_annotation()
         self.draw_scorecard()
+        self.draw_bounding_box()
 
         for player in self.game.players:
             self.draw_player_data(player)
@@ -42,7 +43,7 @@ class Drawer:
         """
         for die in self.game.dice:
             if self.game.player_in_turn.phase == 3:
-                self.draw_die_border(die, PURPLE)
+                self.draw_die_border(die, BLUE)
             else:
                 if die.frozen:
                     self.draw_die_border(die, GREEN)
@@ -61,7 +62,7 @@ class Drawer:
             color (tuple): rgb-väri
         """
         die_pos = die.get_position()
-        pygame.draw.rect(self.game.display, color, (die_pos[0]-5, die_pos[1]-5, 75, 75))
+        pygame.draw.rect(self.game.display, color, (die_pos[0]-4, die_pos[1]-4, 75, 75))
 
     def hide_annotation(self):
         """Maalaa edellisen tekstin yli mustalla
@@ -100,6 +101,15 @@ class Drawer:
         """Piirtää tuloslapun pohjan
         """
         self.game.display.blit(self._scorecard_img, (0, 128))
+        
+    def draw_bounding_box(self):
+        """Piirtää laatikon vuorossa olevan pelaajan
+        sarakkeen ympärille
+        """
+        for player in self.game.players:
+            if player is self.game.player_in_turn:
+                pygame.draw.rect(self.game.display, BLACK, pygame.Rect(177+player.position*47, 136, 48, 595), 5)
+                pygame.draw.rect(self.game.display, GRAY, pygame.Rect(178+player.position*47, 137, 45, 592), 2)
 
     def draw_prospective_results(self, player):
         """Piirtää harmaat tulokset kaikkiin ruutuihin
@@ -149,6 +159,8 @@ class Drawer:
         name_x_pos = player.text_pos[0] + (45 - name_img_width) / 2
 
         self.game.display.blit(name_img, (name_x_pos, name_y_pos))
+
+        
 
         if self.prospective_results_required(player, game_in_progress):
             self.draw_prospective_results(player)

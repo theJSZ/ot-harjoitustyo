@@ -58,16 +58,16 @@ if __name__ == "__main__":
         DB_READER.show_game(1)
 
     else:
-        for i in range(N_PLAYERS):
+        for player_position in range(N_PLAYERS):
             os.system('clear')
             print_yatzy(0)
 
             player_name = "xxxx"
             while invalid_player_name():
-                player_name = input(f"Pelaaja {i+1}: ")
+                player_name = input(f"Pelaaja {player_position+1}: ")
                 check_player_name()
 
-            PLAYER_LIST.append(Player(player_name))
+            PLAYER_LIST.append(Player(player_name, player_position))
 
         os.system('clear')
 

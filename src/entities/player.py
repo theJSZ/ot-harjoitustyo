@@ -4,13 +4,14 @@ from resources.clickable_result_names import CLICKABLE_RESULTS
 class Player:
     """Luokka pelaajalle
     """
-    def __init__(self, name: str):
+    def __init__(self, name: str, position: int=None):
         """Alustaa pelaajalle nimen ja tyhjän tuloslistan
 
         Args:
             name (string): pelaajan nimi
         """
         self.name = name
+        self.position = position
         self.rolling_in_progress = False
         self.marked = False
         self.phase = 0
