@@ -20,6 +20,7 @@ class Yatzy:
     """
     def __init__(self, players):
         self.display = pygame.display.set_mode((377, 760))
+        pygame.display.set_caption('Yatzy')
         self.dice = [Die() for _ in range(5)]
         self._place_dice()
 

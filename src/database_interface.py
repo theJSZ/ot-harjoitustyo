@@ -98,6 +98,7 @@ class DatabaseReader:
     """
     def __init__(self):
         self.display = pygame.display.set_mode((377, 760))
+        pygame.display.set_caption('Vanhat Yatzy-tulokset')
         self.database = sqlite3.connect("./data/yatzy.db")
         self.database.isolation_level = None
         self.drawer = Drawer(self)

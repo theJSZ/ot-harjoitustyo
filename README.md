@@ -4,22 +4,39 @@ Sovellus on Yatzy-peli yhdestä neljään pelaajalle.
 [Vko 6 Release](https://github.com/theJSZ/ot-harjoitustyo/releases/tag/viikko6)
 
 ## Dokumentaatio
-- [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
+- [Lopullinen vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 - [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
 - [Käyttöohje](./dokumentaatio/kayttoohje.md)
 - [Alustava arkkitehtuuri](./dokumentaatio/arkkitehtuuri.md)
 
-## Käynnistys
-1. Asenna riippuvuudet projektin juurihakemistossa komennolla 'poetry install'
-2. Komento 'poetry run invoke start' käynnistää pelin. Katso [käyttöohje](./dokumentaatio/kayttoohje.md)
+## Asennus ja käynnistys
+1. Asenna riippuvuudet projektin juurihakemistossa:  
+
+       poetry install
+
+
+2. Käynnistä peli:
+
+       poetry run invoke start
+
+    Katso [käyttöohje](./dokumentaatio/kayttoohje.md)
 
 ## Testaus
+Testit suoritetaan komennolla
 
-Komento 'poetry run invoke test' suorittaa testit
+    poetry run invoke test
 
-Komento 'poetry run invoke coverage-report' generoi kattavuusraportin html-muodossa
 
-Komento 'pylint src' tarkistaa koodin tyyliseikat annettujen määritelmien mukaan
+Html-muotoisen testikattavuusraportin <i>htmlcov</i>-hakemistoon voi generoida komennolla
+
+
+    poetry run invoke coverage-report
+
+
+Koodin tyyliseikat tarkistetaan komennolla
+
+
+    poetry run invoke pylint
 
 #### TODO
-Refaktorointi edelleen kesken, etenkin uusi tietokantaluokka on retuperällä.
+Refaktorointia voisi vielä tehdä. Toiminnallisuus on muuten hyvä mutta olisi hienoa jos tulosnäkymästä voisi suoraan käynnistää uuden pelin.
