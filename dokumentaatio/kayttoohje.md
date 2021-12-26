@@ -14,14 +14,14 @@ Peliä pelataan 15 kierrosta (eli kunnes tuloslista on täynnä) joissa jokainen
 
  - Ensin pitää pyörittää noppia kerran. Se tehdään klikkaamalla noppien ja tuloslistan välissä olevaa tilaa
 
-  - tässä vaiheessa tuloslistassa näkyy harmaalla kuinka paljon pisteitä eri ruuduissa olisi tarjolla. Vaihtoehdot jotka eivät tuottaisi pisteitä on merkattu pienellä viivalla; näihin on myös sallittua (ja useimmissa peleissä ennen pitkää pakko) sijoittaa  
+   - tässä vaiheessa tuloslistassa näkyy harmaalla kuinka paljon pisteitä eri ruuduissa olisi tarjolla. Vaihtoehdot jotka eivät tuottaisi pisteitä on merkattu pienellä viivalla; näihin on myös sallittua (ja useimmissa peleissä ennen pitkää pakko) sijoittaa  
 
 
  - Sen jälkeen voi kaksi kertaa:
 
-  - valita noppia klikkaamalla mitkä haluaa pitää sellaisenaan. Tätä ilmaisee nopan ympärille ilmestyvä vihreä reuna
-  - klikata samassa paikassa kuin ennenkin merkkaamattomien noppien pyörittämiseksi
-  - kolmannen heiton jälkeen kaikki nopat ympyröidään sinisellä reunalla sen merkiksi että niitä ei voi enää muuttaa ja tulos on pakko sijoittaa
+   - valita noppia klikkaamalla mitkä haluaa pitää sellaisenaan. Tätä ilmaisee nopan ympärille ilmestyvä vihreä reuna
+   - klikata samassa paikassa kuin ennenkin merkkaamattomien noppien pyörittämiseksi
+   - kolmannen heiton jälkeen kaikki nopat ympyröidään sinisellä reunalla sen merkiksi että niitä ei voi enää muuttaa ja tulos on pakko sijoittaa
 
 
  - Sitten pitää merkata tulos jollekin riville tuloslistassa (tämän voi halutessaan tehdä jo ensimmäisen tai toisen heiton jälkeen, tämä myös kerrotaan pelaajille ensimmäisellä kierroksella), ei kuitenkaan riveille "Välisumma" tai "Summa", nämä lasketaan muiden perusteella automaattisesti.  
@@ -34,4 +34,4 @@ Vanhoja tuloksia pääsee näkemään valitsemalla '0' heti käynnistyksen jälk
 
 <img src="./images/result_view.png" width="400">  
 
-Tulosnäkymässä voi selata tuloksia nuolinäppäimillä vasemmalle ja oikealle. Näkymässä ylimpänä on mainittu paras historiasta löytyvä tulos ja sen pelannut pelaaja. 
+Tulosnäkymässä voi selata tuloksia nuolinäppäimillä vasemmalle ja oikealle. Näkymässä ylimpänä on mainittu paras historiasta löytyvä tulos ja sen pelannut pelaaja.
