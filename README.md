@@ -1,7 +1,7 @@
 # Yatzy
 
-Sovellus on Yatzy-peli yhdestä neljään pelaajalle.
-[Vko 6 Release](https://github.com/theJSZ/ot-harjoitustyo/releases/tag/viikko6)
+Sovellus on Yatzy-peli yhdestä neljään pelaajalle.  
+[Lopullinen Release](https://github.com/theJSZ/ot-harjoitustyo/releases/tag/Loppupalautus)
 
 ## Dokumentaatio
 - [Lopullinen vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
