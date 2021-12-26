@@ -15,9 +15,9 @@ def print_yatzy(offset):
     Args:
         offset (int): haluttu määrä tyhjää ennen laatikkoa
     """
-    print(offset*' ' + u'\u250F' + 5*u'\u2501' + u'\u2513')
-    print(offset*' ' + u'\u2503' + "YATZY" + u'\u2503')
-    print(offset*' ' + u'\u2517' + 5*u'\u2501' + u'\u251B', flush=True)
+    print(offset*' ' + '\u250F' + 5*'\u2501' + '\u2513')
+    print(offset*' ' + '\u2503' + "YATZY" + '\u2503')
+    print(offset*' ' + '\u2517' + 5*'\u2501' + '\u251B', flush=True)
 
 def invalid_player_name():
     """Tarkistaa onko annettu nimi epäkelpo

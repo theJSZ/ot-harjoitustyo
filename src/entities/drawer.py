@@ -101,7 +101,7 @@ class Drawer:
         """Piirtää tuloslapun pohjan
         """
         self.game.display.blit(self._scorecard_img, (0, 128))
-        
+
     def draw_bounding_box(self):
         """Piirtää laatikon vuorossa olevan pelaajan
         sarakkeen ympärille
@@ -159,8 +159,6 @@ class Drawer:
         name_x_pos = player.text_pos[0] + (45 - name_img_width) / 2
 
         self.game.display.blit(name_img, (name_x_pos, name_y_pos))
-
-        
 
         if self.prospective_results_required(player, game_in_progress):
             self.draw_prospective_results(player)
