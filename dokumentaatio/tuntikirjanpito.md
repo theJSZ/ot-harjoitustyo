@@ -18,4 +18,5 @@
 |19.12. |1:30  |Refaktorointia|
 |19.12. |1:30  |Refaktorointia, docstringejä, pylint|
 |20.12. |1     |Säädin värejä, lisäsin raamit merkkaamaan vuorossa olevaa pelaajaa|
-Yhteensä 44h
+|26.12. |2     |Muokkasin dokumentaatiota|
+Yhteensä 46h
